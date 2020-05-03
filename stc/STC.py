@@ -11,6 +11,7 @@ from torchvision import transforms
 from stc.utils import *
 from stc.Configuration import Configuration
 import cv2
+import json
 
 
 class STC():
@@ -45,7 +46,15 @@ class STC():
             print("ERROR: there must be at least one shot in the list!")
             exit()
 
-        model = self.loadStcModel(self.config_instance.path_pre_trained_model, classes=self.config_instance.class_names)
+        with open(self.config_instance.path_pre_trained_model + "/" + "/experiment_notes.json", 'r') as json_file:
+            param_dict = json.load(json_file)
+
+        model_arch = param_dict['expNet']
+        classes = param_dict['classes']
+        pre_trained_weights = self.config_instance.path_pre_trained_model + "/best_model.pth"
+
+        #model = self.loadStcModel(self.config_instance.path_pre_trained_model, classes=self.config_instance.class_names)
+        model = loadModel(model_arch=model_arch, classes=classes, pre_trained_path=pre_trained_weights)
 
         if (self.config_instance.debug_flag == True):
             num_shots = 3

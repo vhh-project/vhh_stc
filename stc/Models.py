@@ -12,8 +12,7 @@ from torch.utils.data import DataLoader
 from torchvision import models
 
 
-
-def loadModel(model_arch="", classes=[], pre_trained_path=None, expType=None):
+def loadModel(model_arch="", classes=[], pre_trained_path=None):
     print("Load model architecture ... ");
 
     if (model_arch == "Resnet"):
@@ -128,4 +127,4 @@ def loadModel(model_arch="", classes=[], pre_trained_path=None, expType=None):
         print("ERROR: select valid model architecture!")
         exit()
 
-    return model;
+    return model
