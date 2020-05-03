@@ -1,14 +1,19 @@
 
 from stc.STC import STC
 import numpy as np
+import os
 
-a = STC();
+config_file = "/home/dhelm/VHH_Develop/installed_pkg/vhh_stc/config/config_vhh_test.yaml"
+stc_instance = STC(config_file)
 
-sbd_results_list = "/data/share/results_sbd/final_shots_all.csv"
-shots_np = a.loadSbdResults(sbd_results_list)
+
+results_path = "/data/share/maxrecall_vhh_mmsi/videos/results/sbd/final_results/"
+results_file_list = os.listdir(results_path)
+print(results_file_list)
+shots_np = stc_instance.loadSbdResults(results_path + results_file_list[5])
+
 print(shots_np)
-
-a.runStcClassifier(shots_per_vid_np=shots_np);
+stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np);
 
 
 
