@@ -5,32 +5,38 @@ from stc.Models import loadModel
 from stc.CustomTransforms import ToGrayScale
 import torch
 from PIL import Image
+from torch.autograd import Variable
+from torch.utils import data
 from torchvision import transforms
+from stc.utils import *
+from stc.Configuration import Configuration
+import cv2
 
 class STC():
-    def __init__(self):
+    def __init__(self, config_file: str):
         print("create instance of stc ... ")
-        self.classes = ['CU', 'ELS', 'LS', 'MS']
-        self.vPath = "/data/share/videos/test/"
-        self.mPath = "/data/share/pretrained_models/20191226_BasicCNN_Resnet_Imagenet_ExpNum_6/best_model.pth"
-        self.DEBUG = True;
-        self.results_stc = ""
 
-        if (self.DEBUG == True):
+        if (config_file == ""):
+            printCustom("No configuration file specified!", STDOUT_TYPE.ERROR)
+            exit()
+
+        self.config_instance = Configuration(config_file);
+        self.config_instance.loadConfig();
+
+        if (self.config_instance.debug_flag == True):
             print("DEBUG MODE activated!")
-            self.sbd_results_list = "/data/share/results_sbd/final_shots_all.csv"
-            self.debug_results = "/data/share/results_debug/"
+            self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/stc/develop/"
 
-    def runStcClassifier(self, shots_per_vid_np=None):
-        print("run stc classifier ... ")
+    def runOnSingleVideo(self, shots_per_vid_np=None):
+        print("run stc classifier on single video ... ")
 
         if (type(shots_per_vid_np) == None):
             print("ERROR: you have to set the parameter shots_per_vid_np!")
             exit()
 
-        if(self.DEBUG == True):
+        if(self.config_instance.debug_flag == True):
             # load shot list from result file
-            shots_np = self.loadSbdResults(self.sbd_results_list)
+            shots_np = self.loadSbdResults(self.config_instance.sbd_results_path)
         else:
             shots_np = shots_per_vid_np
 
@@ -50,38 +56,60 @@ class STC():
                                  (57.99793 / 255.0, 57.99793 / 255.0, 57.99793 / 255.0))
         ])
 
-        model = self.loadStcModel(self.mPath, classes=self.classes);
+        model = self.loadStcModel(self.config_instance.path_pre_trained_model, classes=self.config_instance.class_names)
 
-        if (self.DEBUG == True):
-            nShots = 3;
+        if (self.config_instance.debug_flag == True):
+            num_shots = 3
         else:
-            nShots = len(shots_np)
+            num_shots = len(shots_np)
+
+        vid_name = shots_np[0][1]
+        vid_instance = self.loadSingleVideo(os.path.join(self.config_instance.path_videos, vid_name))
+
+        # read all frames of video
+        cap = cv2.VideoCapture(self.config_instance.path_videos + "/" + vid_name)
+        frame_l = []
+        cnt = 0
+        while (True):
+            cnt = cnt + 1
+            ret, frame = cap.read()
+            # print(cnt)
+            # print(ret)
+            # print(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            if (ret == True):
+                frame = preprocess(frame)
+                frame_l.append(frame)
+
+                # cv2.imwrite(self.config_instance.path_eval_results + vid_name + "_" + str(cnt) + ".png", frame)
+            else:
+                break;
+        # exit()
+        all_tensors_l = torch.stack(frame_l)
+        print(type(all_tensors_l))
+        print(len(all_tensors_l))
+        print(all_tensors_l.size())
+        #frame_np = np.array(frame_l)
+        #print(frame_np.shape)
 
         results_stc_l = []
-        for idx in range(0, nShots):
+        for idx in range(0, num_shots):
             #print(shots_np[idx])
             shot_id = int(shots_np[idx][0])
             vid_name = str(shots_np[idx][1])
             start = int(shots_np[idx][2])
             stop = int(shots_np[idx][3]) + 1
 
-            vid_instance = self.loadSingleVideo(os.path.join(self.vPath, vid_name))
-
-            frame_l = []
-            for idx in range(start, stop):
-                frame = vid_instance.getFrame(idx)
-                frame = preprocess(frame)
-
-                if (self.DEBUG == True):
-                    tmp_trans = transforms.ToPILImage();
-                    frame_pil = tmp_trans(frame)
-                    #frame_pil.save(self.debug_results + "/" + str(vid_name) + "_" + str(start) + "_" + str(stop) + "" + str(idx) + ".png")
-
-                frame_l.append(frame)
-            tensor_l = torch.stack(frame_l)
+            shot_tensors = all_tensors_l[start:stop, :, :, :]
+            print(shot_tensors.size())
+            #exit()
 
             # run classifier
-            class_name, nHits = self.runModel(model, tensor_l)
+            class_name, nHits = self.runModel(model, shot_tensors)
+            print(class_name)
+            print(nHits)
+
+            if(self.config_instance.save_raw_results == 1):
+                print("asdfasdf")
 
             # prepare results
             print(str(vid_name) + ";" + str(shot_id) + ";" + str(start) + ";" + str(stop) + ";" + str(class_name))
@@ -90,7 +118,7 @@ class STC():
         results_stc_np = np.array(results_stc_l)
 
         # export results
-        self.exportStcResults(results_stc_np)
+        self.exportStcResults(vid_name, results_stc_np)
 
     def loadStcModel(self, mPath, classes):
         print("load pre trained model")
@@ -105,22 +133,39 @@ class STC():
     def runModel(self, model, tensor_l):
         input_batch = tensor_l
 
-        # move the input and model to GPU for speed if available
-        if torch.cuda.is_available():
-            input_batch = input_batch.to('cuda')
-            model.to('cuda')
+        # prepare pytorch dataloader
+        dataset = data.TensorDataset(input_batch)  # create your datset
 
-        model.eval()
-        with torch.no_grad():
-            output = model(input_batch)
-            preds = output.argmax(1, keepdim=True)
-            distr = torch.unique(preds, return_counts=True)
-            idx = distr[1].argmax(0, keepdim=True).item()
+        inference_dataloader = data.DataLoader(dataset, batch_size=self.config_instance.batch_size)  # create your dataloader
 
-            class_name = self.classes[distr[0][idx].item()]
-            nHits = distr[1][idx].item()
+        preds_l = []
+        for i, inputs in enumerate(inference_dataloader):
+            input_batch = inputs[0]
+            input_batch = Variable(input_batch)
 
-            return class_name, nHits;
+            # move the input and model to GPU for speed if available
+            if torch.cuda.is_available():
+                input_batch = input_batch.to('cuda')
+                model.to('cuda')
+
+            model.eval()
+            with torch.no_grad():
+                output = model(input_batch)
+                preds = output.argmax(1, keepdim=True)
+                preds_l.extend(preds.detach().cpu().numpy().flatten())
+
+        preds_np = np.array(preds_l).flatten()
+        indices, distr = np.unique(preds_np, return_counts=True)
+
+        idx = distr.argmax(0)
+        print(idx)
+
+        class_name = self.config_instance.class_names[idx]
+        nHits = distr[idx]
+        print(class_name)
+        print(nHits)
+
+        return class_name, nHits;
 
     def loadSbdResults(self, sbd_results_path):
         # open sbd results
@@ -138,7 +183,7 @@ class STC():
 
         return lines_np
 
-    def exportStcResults(self, stc_results_np: np.ndarray):
+    def exportStcResults(self, fName, stc_results_np: np.ndarray):
         print("export results to csv!")
 
         if(len(stc_results_np) == 0):
@@ -146,10 +191,10 @@ class STC():
             exit()
 
         # open stc resutls file
-        if (self.DEBUG == True):
-            fp = open(self.debug_results + "/" + "results_stc.csv", 'w')
+        if (self.config_instance.debug_flag == True):
+            fp = open(self.debug_results + "/" + fName + ".csv", 'w')
         else:
-            fp = open(self.results_stc + "/" + "results_stc.csv", 'w')
+            fp = open(self.config_instance.path_final_results + "/" + fName + ".csv", 'w')
         header = "vid_name;shot_id;start;end;stc"
         fp.write(header + "\n")
 
