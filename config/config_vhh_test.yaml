@@ -12,6 +12,7 @@ StcCore:
   BATCH_SIZE: 64
   SAVE_RAW_RESULTS: 1       # 1 ... yes 0 ... no
   PATH_RAW_RESULTS: "/data/share/maxrecall_vhh_mmsi/videos/results/stc/raw_results/"
+  NUMBER_OF_FRAMES_PER_SHOT: 5  # save x frames per shot
   PREFIX_RAW_RESULTS: "results_raw_"
   POSTFIX_RAW_RESULTS: "csv"
 

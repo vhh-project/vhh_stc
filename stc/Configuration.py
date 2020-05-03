@@ -23,6 +23,7 @@ class Configuration:
         self.class_names = None
         self.batch_size = -1
         self.save_raw_results = -1;
+        self.number_of_frames_per_shot = -1
         self.path_postfix_raw_results = None;
         self.path_prefix_raw_results = None;
         self.path_raw_results = None;
@@ -68,14 +69,16 @@ class Configuration:
         self.class_names = stc_core_config['CLASS_NAMES']
         self.batch_size = int(stc_core_config['BATCH_SIZE'])
 
-        self.save_raw_results = int(stc_core_config['SAVE_RAW_RESULTS']);
-        self.path_postfix_raw_results = stc_core_config['POSTFIX_RAW_RESULTS'];
-        self.path_prefix_raw_results = stc_core_config['PREFIX_RAW_RESULTS'];
-        self.path_raw_results = stc_core_config['PATH_RAW_RESULTS'];
+        self.save_raw_results = int(stc_core_config['SAVE_RAW_RESULTS'])
+        self.number_of_frames_per_shot = int(stc_core_config['NUMBER_OF_FRAMES_PER_SHOT'])
 
-        self.save_final_results = int(stc_core_config['SAVE_FINAL_RESULTS']);
-        self.path_prefix_final_results = stc_core_config['PREFIX_FINAL_RESULTS'];
-        self.path_postfix_final_results = stc_core_config['POSTFIX_FINAL_RESULTS'];
+        self.path_postfix_raw_results = stc_core_config['POSTFIX_RAW_RESULTS']
+        self.path_prefix_raw_results = stc_core_config['PREFIX_RAW_RESULTS']
+        self.path_raw_results = stc_core_config['PATH_RAW_RESULTS']
+
+        self.save_final_results = int(stc_core_config['SAVE_FINAL_RESULTS'])
+        self.path_prefix_final_results = stc_core_config['PREFIX_FINAL_RESULTS']
+        self.path_postfix_final_results = stc_core_config['POSTFIX_FINAL_RESULTS']
         self.path_final_results = stc_core_config['PATH_FINAL_RESULTS'];
 
         self.path_videos = stc_core_config['PATH_VIDEOS'];

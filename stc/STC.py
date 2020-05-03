@@ -12,6 +12,7 @@ from stc.utils import *
 from stc.Configuration import Configuration
 import cv2
 
+
 class STC():
     def __init__(self, config_file: str):
         print("create instance of stc ... ")
@@ -79,18 +80,12 @@ class STC():
             if (ret == True):
                 frame = preprocess(frame)
                 frame_l.append(frame)
-
-                # cv2.imwrite(self.config_instance.path_eval_results + vid_name + "_" + str(cnt) + ".png", frame)
             else:
                 break;
         # exit()
-        all_tensors_l = torch.stack(frame_l)
-        print(type(all_tensors_l))
-        print(len(all_tensors_l))
-        print(all_tensors_l.size())
-        #frame_np = np.array(frame_l)
-        #print(frame_np.shape)
 
+        all_tensors_l = torch.stack(frame_l)
+        frame_cnt = 0
         results_stc_l = []
         for idx in range(0, num_shots):
             #print(shots_np[idx])
@@ -100,16 +95,53 @@ class STC():
             stop = int(shots_np[idx][3]) + 1
 
             shot_tensors = all_tensors_l[start:stop, :, :, :]
-            print(shot_tensors.size())
-            #exit()
 
             # run classifier
-            class_name, nHits = self.runModel(model, shot_tensors)
-            print(class_name)
-            print(nHits)
+            class_name, nHits, all_preds_np = self.runModel(model, shot_tensors)
 
             if(self.config_instance.save_raw_results == 1):
-                print("asdfasdf")
+                #print("save intermediate/raw results ... ")
+
+                # prepare folder structure
+                video_raw_result_path = os.path.join(self.config_instance.path_raw_results, str(vid_name.split('.')[0]))
+                createFolder(video_raw_result_path)
+                shot_result_path = os.path.join(video_raw_result_path, str(shot_id))
+                createFolder(shot_result_path)
+
+                # save class distribution
+                indices, distr = np.unique(all_preds_np, return_counts=True)
+                class_distr_per_shot = np.zeros(len(self.config_instance.class_names)).astype('uint8')
+                class_distr_per_shot[indices] = distr
+                #names = self.config_instance.class_names[indices]
+                #print(names)
+                plotClassDistribution(file_name=shot_result_path + "/class_distr_" + str(shot_id),
+                                      file_extension="pdf",
+                                      class_distr_name=self.config_instance.class_names,
+                                      class_distr_data=class_distr_per_shot)
+
+                # save predicition per frame for whole video
+                raw_results_per_frame_csv = "results_per_frame.csv"
+                for r in range(0, len(all_preds_np)):
+                    frame_cnt = frame_cnt + 1
+                    entries_l = [frame_cnt, all_preds_np[r], self.config_instance.class_names[all_preds_np[r]]]
+                    csvWriter(dst_folder=video_raw_result_path, name=raw_results_per_frame_csv, entries_list=entries_l)
+
+                # save n frames of each shot in separate folders
+                n = self.config_instance.number_of_frames_per_shot
+                shot_frames_np = np.array(shot_tensors)
+                number_of_frames = len(shot_frames_np.shape)
+                center_idx = int(number_of_frames / 2)
+                a = center_idx - n
+                if(a <= 0): a = 0
+                if(a >= len(shot_frames_np)): a = len(shot_frames_np)
+                b = center_idx + n
+                if (b <= 0): b = 0
+                if (b >= len(shot_frames_np)): b = len(shot_frames_np)
+
+                for j in range(a, b):
+                    #print(shot_frames_np[j].transpose(1, 2, 0).shape)
+                    cv2.imwrite(shot_result_path + "/" + str(shot_id) + "_ " + str(j) + ".png",
+                                shot_frames_np[j].transpose(1, 2, 0))
 
             # prepare results
             print(str(vid_name) + ";" + str(shot_id) + ";" + str(start) + ";" + str(stop) + ";" + str(class_name))
@@ -158,14 +190,14 @@ class STC():
         indices, distr = np.unique(preds_np, return_counts=True)
 
         idx = distr.argmax(0)
-        print(idx)
+        #print(idx)
 
         class_name = self.config_instance.class_names[idx]
         nHits = distr[idx]
-        print(class_name)
-        print(nHits)
+        #print(class_name)
+        #print(nHits)
 
-        return class_name, nHits;
+        return class_name, nHits, preds_np
 
     def loadSbdResults(self, sbd_results_path):
         # open sbd results
