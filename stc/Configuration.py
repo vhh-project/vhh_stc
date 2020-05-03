@@ -6,27 +6,30 @@ class Configuration:
     def __init__(self, config_file: str):
         printCustom("create instance of configuration ... ", STDOUT_TYPE.INFO)
 
-        self.config_file = config_file;
+        self.config_file = config_file
 
         self.debug_flag = -1
         self.sbd_results_path = None
         self.save_debug_pkg_flag = -1
 
-        self.resize_dim = None;
-        self.flag_convert2Gray = -1;
-        self.flag_crop = -1;
-        self.flag_downscale = -1;
-        self.opt_histogram_equ = None;
+        self.resize_dim = None
+        self.mean_values = []
+        self.std_dev = []
 
-        self.activate_candidate_selection = -1;
+        self.flag_convert2Gray = -1
+        self.flag_crop = -1
+        self.flag_downscale = -1
+        self.opt_histogram_equ = None
+
+        self.activate_candidate_selection = -1
 
         self.class_names = None
         self.batch_size = -1
-        self.save_raw_results = -1;
+        self.save_raw_results = -1
         self.number_of_frames_per_shot = -1
-        self.path_postfix_raw_results = None;
-        self.path_prefix_raw_results = None;
-        self.path_raw_results = None;
+        self.path_postfix_raw_results = None
+        self.path_prefix_raw_results = None
+        self.path_raw_results = None
 
         self.save_final_results = -1;
         self.path_prefix_final_results = None;
@@ -64,6 +67,8 @@ class Configuration:
         # pre-processing section
         self.resize_dim = (int(pre_processing_config['RESIZE_DIM'].split(',')[0]),
                            int(pre_processing_config['RESIZE_DIM'].split(',')[1]))
+        self.mean_values = [float(i) for i in pre_processing_config['MEAN_VAL']]
+        self.std_dev = [float(i) for i in pre_processing_config['STD_DEV']]
 
         # stc_core_config section
         self.class_names = stc_core_config['CLASS_NAMES']

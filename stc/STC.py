@@ -45,18 +45,6 @@ class STC():
             print("ERROR: there must be at least one shot in the list!")
             exit()
 
-        # prepare transformation for cnn model
-        preprocess = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize((720, 960)),
-            transforms.CenterCrop((720, 720)),
-            transforms.Resize((128, 128)),
-            ToGrayScale(),
-            transforms.ToTensor(),
-            transforms.Normalize((94.05657 / 255.0, 94.05657 / 255.0, 94.05657 / 255.0),
-                                 (57.99793 / 255.0, 57.99793 / 255.0, 57.99793 / 255.0))
-        ])
-
         model = self.loadStcModel(self.config_instance.path_pre_trained_model, classes=self.config_instance.class_names)
 
         if (self.config_instance.debug_flag == True):
@@ -66,6 +54,22 @@ class STC():
 
         vid_name = shots_np[0][1]
         vid_instance = self.loadSingleVideo(os.path.join(self.config_instance.path_videos, vid_name))
+
+        # prepare transformation for cnn model
+        preprocess = transforms.Compose([
+            transforms.ToPILImage(),
+            transforms.Resize((int(vid_instance.height), vid_instance.width)),
+            transforms.CenterCrop((int(vid_instance.height), int(vid_instance.height))),
+            transforms.Resize(self.config_instance.resize_dim),
+            ToGrayScale(),
+            transforms.ToTensor(),
+            transforms.Normalize((self.config_instance.mean_values[0] / 255.0,
+                                  self.config_instance.mean_values[1] / 255.0,
+                                  self.config_instance.mean_values[2] / 255.0),
+                                 (self.config_instance.std_dev[0] / 255.0,
+                                  self.config_instance.std_dev[1] / 255.0,
+                                  self.config_instance.std_dev[2] / 255.0))
+        ])
 
         # read all frames of video
         cap = cv2.VideoCapture(self.config_instance.path_videos + "/" + vid_name)

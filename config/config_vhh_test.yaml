@@ -6,6 +6,8 @@ Development:
 
 PreProcessing:
   RESIZE_DIM: 128, 128      # resize dimension -> height, width
+  MEAN_VAL: [94.05657, 94.05657, 94.05657]  # mean values per color channel
+  STD_DEV: [57.99793, 57.99793, 57.99793]   # standard deviation per color channel
 
 StcCore:
   CLASS_NAMES: ["ELS","LS","MS","CU"]
