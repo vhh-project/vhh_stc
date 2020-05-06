@@ -15,7 +15,16 @@ import json
 
 
 class STC():
+    """
+        A class for retrieving values from config files.
+
+    """
+
     def __init__(self, config_file: str):
+        """
+
+        :param config_file:
+        """
         print("create instance of stc ... ")
 
         if (config_file == ""):
@@ -30,6 +39,14 @@ class STC():
             self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/stc/develop/"
 
     def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
+        """
+        Get a value from the config file.
+
+        :param section: the section that contains the entry
+        :param var: the variable that holds the value
+        :return: the retrieved value
+        """
+
         print("run stc classifier on single video ... ")
 
         if (type(shots_per_vid_np) == None):

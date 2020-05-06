@@ -3,7 +3,20 @@ import yaml
 
 
 class Configuration:
+    """xxxxxxxxxxxxxxxxx
+
+    xxxxxxxxxxxxxxxxxxxxxxxx
+
+    .. note::
+       xxxxxxxxxxxxxxxx
+
+    """
+
     def __init__(self, config_file: str):
+        """
+
+        :param config_file: asdfa sdf asdf asdf asdf asd f
+        """
         printCustom("create instance of configuration ... ", STDOUT_TYPE.INFO)
 
         self.config_file = config_file
@@ -51,6 +64,9 @@ class Configuration:
         self.path_gt_data = None;
 
     def loadConfig(self):
+        """
+        asdfasdfasdf
+        """
         fp = open(self.config_file, 'r');
         config = yaml.load(fp, Loader=yaml.BaseLoader);
 

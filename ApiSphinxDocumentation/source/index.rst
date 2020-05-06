@@ -7,9 +7,13 @@ Welcome to vhh_stc's documentation!
 ===================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
+   Configuration.rst
+   STC.rst
+   Video.rst
+   Models.rst
 
 
 Indices and tables
