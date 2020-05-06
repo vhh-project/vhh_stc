@@ -29,11 +29,15 @@ class STC():
             print("DEBUG MODE activated!")
             self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/stc/develop/"
 
-    def runOnSingleVideo(self, shots_per_vid_np=None):
+    def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
         print("run stc classifier on single video ... ")
 
         if (type(shots_per_vid_np) == None):
             print("ERROR: you have to set the parameter shots_per_vid_np!")
+            exit()
+
+        if (max_recall_id == -1 or max_recall_id == 0):
+            print("ERROR: you have to set a valid max_recall_id [1-n]!")
             exit()
 
         if(self.config_instance.debug_flag == True):
@@ -105,9 +109,9 @@ class STC():
             shot_id = int(shots_np[idx][0])
             vid_name = str(shots_np[idx][1])
             start = int(shots_np[idx][2])
-            stop = int(shots_np[idx][3]) + 1
+            stop = int(shots_np[idx][3])
 
-            shot_tensors = all_tensors_l[start:stop, :, :, :]
+            shot_tensors = all_tensors_l[start:stop+1, :, :, :]
 
             # run classifier
             class_name, nHits, all_preds_np = self.runModel(model, shot_tensors)
@@ -163,7 +167,7 @@ class STC():
         results_stc_np = np.array(results_stc_l)
 
         # export results
-        self.exportStcResults(vid_name, results_stc_np)
+        self.exportStcResults(str(max_recall_id), results_stc_np)
 
     def loadStcModel(self, mPath, classes):
         print("load pre trained model")
