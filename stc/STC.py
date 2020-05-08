@@ -14,16 +14,17 @@ import cv2
 import json
 
 
-class STC():
+class STC(object):
     """
-        A class for retrieving values from config files.
-
+        Main class of shot type classification (stc) package.
     """
 
     def __init__(self, config_file: str):
         """
+        Constructor
 
-        :param config_file:
+        :param config_file: [required] path to configuration file (e.g. PATH_TO/config.yaml)
+                                       must be with extension ".yaml"
         """
         print("create instance of stc ... ")
 
@@ -40,11 +41,11 @@ class STC():
 
     def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
         """
-        Get a value from the config file.
+        Method to run stc classification on specified video.
 
-        :param section: the section that contains the entry
-        :param var: the variable that holds the value
-        :return: the retrieved value
+        :param shots_per_vid_np: [required] numpy array representing all detected shots in a video
+                                 (e.g. sid | movie_name | start | end )
+        :param max_recall_id: [required] integer value holding unique video id from VHH MMSI system
         """
 
         print("run stc classifier on single video ... ")
@@ -83,7 +84,8 @@ class STC():
             num_shots = len(shots_np)
 
         vid_name = shots_np[0][1]
-        vid_instance = self.loadSingleVideo(os.path.join(self.config_instance.path_videos, vid_name))
+        vid_instance = Video()
+        vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
 
         # prepare transformation for cnn model
         preprocess = transforms.Compose([
@@ -186,17 +188,17 @@ class STC():
         # export results
         self.exportStcResults(str(max_recall_id), results_stc_np)
 
-    def loadStcModel(self, mPath, classes):
-        print("load pre trained model")
-        model = loadModel(model_arch="Resnet", classes=classes, pre_trained_path=mPath);
-        return model;
-
-    def loadSingleVideo(self, vPath):
-        vid_instance = Video()
-        vid_instance.load(vPath)
-        return vid_instance
-
     def runModel(self, model, tensor_l):
+        """
+        Method to calculate stc predictions of specified model and given list of tensor images (pytorch).
+
+        :param model: [required] pytorch model instance
+        :param tensor_l: [required] list of tensors representing a list of frames.
+        :return: predicted class_name for each tensor frame,
+                 the number of hits within a shot,
+                 frame-based predictions for a whole shot
+        """
+
         input_batch = tensor_l
 
         # prepare pytorch dataloader
@@ -234,6 +236,16 @@ class STC():
         return class_name, nHits, preds_np
 
     def loadSbdResults(self, sbd_results_path):
+        """
+        Method for loading shot boundary detection results as numpy array
+
+        .. note::
+            Only used in debug_mode.
+
+        :param sbd_results_path: [required] path to results file of shot boundary detection module (vhh_sbd)
+        :return: numpy array holding list of detected shots.
+        """
+
         # open sbd results
         fp = open(sbd_results_path, 'r')
         lines = fp.readlines()
@@ -250,9 +262,16 @@ class STC():
         return lines_np
 
     def exportStcResults(self, fName, stc_results_np: np.ndarray):
+        """
+        Method to export stc results as csv file.
+
+        :param fName: [required] name of result file.
+        :param stc_results_np: numpy array holding the shot type classification predictions for each shot of a movie.
+        """
+
         print("export results to csv!")
 
-        if(len(stc_results_np) == 0):
+        if (len(stc_results_np) == 0):
             print("ERROR: numpy is empty")
             exit()
 
@@ -269,7 +288,6 @@ class STC():
             for c in range(1, len(stc_results_np[i])):
                 tmp_line = tmp_line + ";" + stc_results_np[i][c]
             fp.write(tmp_line + "\n")
-
 
 
 

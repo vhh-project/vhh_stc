@@ -2,13 +2,12 @@ import sys
 import os
 import numpy as np
 from matplotlib import pyplot as plt
-#plt.rcParams['text.usetex'] = True  # Let TeX do the typsetting
 plt.rc('pdf', fonttype=42)
+
 
 class STDOUT_TYPE:
     INFO = 1
     ERROR = 2
-
 
 def printCustom(msg: str, type: int):
     if(type == 1):

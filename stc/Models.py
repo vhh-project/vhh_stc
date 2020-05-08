@@ -12,9 +12,18 @@ from torch.utils.data import DataLoader
 from torchvision import models
 
 
-def loadModel(model_arch="", classes=[], pre_trained_path=None):
-    print("Load model architecture ... ");
+def loadModel(model_arch="", classes=None, pre_trained_path=None):
+    """
+    This module is used to load specified deep learning model.
 
+    :param model_arch: string value [required] - is used to select between various deep learning architectures
+     (Resnet, Vgg, Densenet, Alexnet)
+    :param classes: list of strings [required] - is used to hold the class names (e.g. ['ELS', 'LS', 'MS', 'CU'])
+    :param pre_trained_path: string [optional] - is used to specify the path to a pre-trained model
+    :return: the specified instance of the model
+    """
+
+    print("Load model architecture ... ");
     if (model_arch == "Resnet"):
         print("Resnet architecture selected ...")
 
@@ -124,6 +133,7 @@ def loadModel(model_arch="", classes=[], pre_trained_path=None):
         print("total_trainable_params: " + str(total_trainable_params))
 
     else:
+        model = None
         print("ERROR: select valid model architecture!")
         exit()
 

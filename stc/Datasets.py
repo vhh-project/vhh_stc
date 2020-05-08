@@ -11,25 +11,18 @@ from torchvision import datasets
 from torch.utils.data import DataLoader
 from torchvision import models
 import cv2
-
-class ToGrayScale(object):
-    def __call__(self, frame):
-        frame = np.asarray(frame)
-        # print(type(frame))
-        # print(frame.shape)
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # gray = cv2.resize(gray,(224, 224))
-        frame_gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
-        # hist_cl1 = cv2.calcHist([cl1], [0], None, [256], [0, 256])
-
-        frame_gray = Image.fromarray(frame_gray)
-        return frame_gray
-
-    def __repr__(self):
-        return self.__class__.__name__ + 'toGrayscale'
+from stc.CustomTransforms import *
 
 
 def loadDatasetFromFolder(path="", batch_size=64):
+    """
+    This method is used to load a specified dataset.
+
+    :param path: [required] path to dataset folder holding the subfolders "train", "val" and "test".
+    :param batch_size: [optional] specifies the batchsize used during training process.
+    :return: instance of trainloader, validloader, testloader as well as the corresponding dataset sizes
+    """
+
     if (path == "" or path == None):
         print("ERROR: you must specifiy a valid dataset path!")
         exit();
@@ -111,4 +104,4 @@ def loadDatasetFromFolder(path="", batch_size=64):
     print("valid samples: " + str(len(valid_data)))
     print("test samples: " + str(len(test_data)))
 
-    return trainloader, len(train_data), validloader, len(valid_data), testloader;
+    return trainloader, len(train_data), validloader, len(valid_data), testloader

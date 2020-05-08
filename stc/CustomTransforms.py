@@ -2,9 +2,20 @@ from PIL import Image
 import cv2
 import numpy as np
 
+
 class ToGrayScale(object):
+    """
+    This class is needed to transform rbg numpy frames to grayscale numpys during the training process with pytorch.
+    """
 
     def __call__(self, frame):
+        """
+        Custom transformation class to convert given rgb frame to grayscale frame
+
+        :param frame: [required] numpy frame with shape (BxHx3)
+        :return: numpy frame with with shape (BxHx3)
+        """
+
         frame = np.asarray(frame)
         # print(type(frame))
         # print(frame.shape)
