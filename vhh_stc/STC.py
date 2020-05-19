@@ -1,22 +1,22 @@
 import numpy as np
-from stc.Video import Video
+from vhh_stc.Video import Video
 import os
-from stc.Models import loadModel
-from stc.CustomTransforms import ToGrayScale
+from vhh_stc.Models import loadModel
+from vhh_stc.CustomTransforms import ToGrayScale
 import torch
 from PIL import Image
 from torch.autograd import Variable
 from torch.utils import data
 from torchvision import transforms
-from stc.utils import *
-from stc.Configuration import Configuration
+from vhh_stc.utils import *
+from vhh_stc.Configuration import Configuration
 import cv2
 import json
 
 
 class STC(object):
     """
-        Main class of shot type classification (stc) package.
+        Main class of shot type classification (vhh_stc) package.
     """
 
     def __init__(self, config_file: str):
@@ -26,7 +26,7 @@ class STC(object):
         :param config_file: [required] path to configuration file (e.g. PATH_TO/config.yaml)
                                        must be with extension ".yaml"
         """
-        print("create instance of stc ... ")
+        print("create instance of vhh_stc ... ")
 
         if (config_file == ""):
             printCustom("No configuration file specified!", STDOUT_TYPE.ERROR)
@@ -37,18 +37,18 @@ class STC(object):
 
         if (self.config_instance.debug_flag == True):
             print("DEBUG MODE activated!")
-            self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/stc/develop/"
+            self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/vhh_stc/develop/"
 
     def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
         """
-        Method to run stc classification on specified video.
+        Method to run vhh_stc classification on specified video.
 
         :param shots_per_vid_np: [required] numpy array representing all detected shots in a video
                                  (e.g. sid | movie_name | start | end )
         :param max_recall_id: [required] integer value holding unique video id from VHH MMSI system
         """
 
-        print("run stc classifier on single video ... ")
+        print("run vhh_stc classifier on single video ... ")
 
         if (type(shots_per_vid_np) == None):
             print("ERROR: you have to set the parameter shots_per_vid_np!")
@@ -190,7 +190,7 @@ class STC(object):
 
     def runModel(self, model, tensor_l):
         """
-        Method to calculate stc predictions of specified model and given list of tensor images (pytorch).
+        Method to calculate vhh_stc predictions of specified model and given list of tensor images (pytorch).
 
         :param model: [required] pytorch model instance
         :param tensor_l: [required] list of tensors representing a list of frames.
@@ -263,7 +263,7 @@ class STC(object):
 
     def exportStcResults(self, fName, stc_results_np: np.ndarray):
         """
-        Method to export stc results as csv file.
+        Method to export vhh_stc results as csv file.
 
         :param fName: [required] name of result file.
         :param stc_results_np: numpy array holding the shot type classification predictions for each shot of a movie.
@@ -275,12 +275,12 @@ class STC(object):
             print("ERROR: numpy is empty")
             exit()
 
-        # open stc resutls file
+        # open vhh_stc resutls file
         if (self.config_instance.debug_flag == True):
             fp = open(self.debug_results + "/" + fName + ".csv", 'w')
         else:
             fp = open(self.config_instance.path_final_results + "/" + fName + ".csv", 'w')
-        header = "vid_name;shot_id;start;end;stc"
+        header = "vid_name;shot_id;start;end;vhh_stc"
         fp.write(header + "\n")
 
         for i in range(0, len(stc_results_np)):

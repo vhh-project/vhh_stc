@@ -41,6 +41,6 @@ setup(
      description="Shot Type Classification Package",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/dahe-cvl/vhh_sbd",
-     packages=["stc"]
+     url="https://github.com/dahe-cvl/vhh_stc",
+     packages=["vhh_stc"]
 )
