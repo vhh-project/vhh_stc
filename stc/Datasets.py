@@ -11,7 +11,7 @@ from torchvision import datasets
 from torch.utils.data import DataLoader
 from torchvision import models
 import cv2
-from vhh_stc.CustomTransforms import *
+from stc.CustomTransforms import *
 
 
 def loadDatasetFromFolder(path="", batch_size=64):

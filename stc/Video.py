@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import datetime
-from vhh_stc.utils import *
+from stc.utils import *
 from PIL import Image
 
 

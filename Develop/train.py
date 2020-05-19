@@ -26,8 +26,8 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import cohen_kappa_score
 from sklearn.metrics import confusion_matrix
 
-from vhh_stc.Models import *
-from vhh_stc.Datasets import *
+from stc.Models import *
+from stc.Datasets import *
 
 
 def plot_confusion_matrix(cm=None,
@@ -332,7 +332,7 @@ def run():
                               'wDecay': wDecay_list[j],
                               'classes': ["CU", "ELS", "LS", "MS"],
                               'early_stopping_threshold': 30,
-                              'db_path': "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/vhh_stc/20191203/db_v8/",
+                              'db_path': "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/stc/20191203/db_v8/",
                               'dst_path': "/caa/Projects02/vhh/private/Results/ShotTypeClassification/20191118/pytorch_exp_db_v8/",
                               'expTimeStamp': datetime.now().strftime("%Y%m%d"),
                               'expType': "BasicCNN_db_v8",
@@ -358,7 +358,7 @@ def runSingleExp():
                   'wDecay': wDecay_list,
                   'classes': ["CU", "ELS", "LS", "MS"],
                   'early_stopping_threshold': 20,
-                  'db_path': "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/vhh_stc/20191203/db_v8/",
+                  'db_path': "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/stc/20191203/db_v8/",
                   'dst_path': "/caa/Projects02/vhh/private/Results/ShotTypeClassification/20191118/sota/rahul/",
                   'expTimeStamp': datetime.now().strftime("%Y%m%d"),
                   'expType': "all",
@@ -398,7 +398,7 @@ def test():
         expWeights = param_dict['expWeights']
         expNum = param_dict['expNum']
         # db_path = param_dict['db_path']
-        db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/vhh_stc/20191203/db_v8/"
+        db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/stc/20191203/db_v8/"
         n_epochs = param_dict['n_epochs']
         batch_size = param_dict['batch_size']
         lRate = param_dict['lRate']
@@ -538,7 +538,7 @@ def testSingleExp():
     expFolder = "/caa/Projects02/vhh/private/Results/ShotTypeClassification/20191118/20200206_own_depthmap_resnet_test_ExpNum_303/"
     #expFolder = "/caa/Projects02/vhh/private/Results/ShotTypeClassification/20191118/pytorch_exp_db_v8/20200206_BasicCNN_db_v8_Resnet_ExpNum_100/"
 
-    # db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/vhh_stc/20191203/db_v7/"
+    # db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/stc/20191203/db_v7/"
 
     with open(expFolder + "/experiment_notes.json", 'r') as json_file:
         param_dict = json.load(json_file)
@@ -546,7 +546,7 @@ def testSingleExp():
     # dst_path = param_dict['dst_path'];
     #dst_path = path
     expNet = param_dict['expNet']
-    db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/vhh_stc/20191203/db_v8/"
+    db_path = "/caa/Projects02/vhh/private/database_nobackup/VHH_datasets/generated/stc/20191203/db_v8/"
     batch_size = param_dict['batch_size']
     classes = param_dict['classes']
 

@@ -34,7 +34,7 @@ print("all dependencies installed!")
 
 # install sbd package
 setup(
-     name='vhh_stc',
+     name='stc',
      version='0.1.0',
      author="Daniel Helm",
      author_email="daniel.helm@tuwien.ac.at",
@@ -42,5 +42,5 @@ setup(
      long_description=long_description,
      long_description_content_type="text/markdown",
      url="https://github.com/dahe-cvl/vhh_stc",
-     packages=["vhh_stc"]
+     packages=["stc"]
 )

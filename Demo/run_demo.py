@@ -1,9 +1,9 @@
 
-from vhh_stc.STC import STC
+from stc.STC import STC
 import numpy as np
 import os
 
-config_file = "/home/dhelm/VHH_Develop/installed_pkg/vhh_stc/config/config_vhh_test.yaml"
+config_file = "/home/dhelm/VHH_Develop/installed_pkg/stc/config/config_vhh_test.yaml"
 stc_instance = STC(config_file)
 
 
