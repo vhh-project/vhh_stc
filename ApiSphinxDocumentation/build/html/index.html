@@ -102,6 +102,27 @@ The following instructions have to be done to used this library in your own appl
 <em>pip install torch==1.5.0+cu101 torchvision==0.6.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html</em></p>
 </div>
 </div>
+<div class="section" id="dataset-generator">
+<h1>Dataset Generator<a class="headerlink" href="#dataset-generator" title="Permalink to this headline">¶</a></h1>
+<p>In the <em>Develop/dataset_annotation_scripts</em> helper scripts are included to generate a annotated dataset to train
+a the classification model.</p>
+<p>** annotationToolShotTypes_v2.py **</p>
+<blockquote>
+<div><p>This script provides a simple frame player GUI to iterate over the frames included in a specified folder. Moreover,
+each frame can be annotated with a simple keyboard command to configured class names. The keyboard commands are
+explained in the script and a configuration section is placed at the beginning of the script. This tool can also be
+used in Windows by executing the batch script (python 3.6.x with opencv is required).</p>
+</div></blockquote>
+<p>** extractAnnotatedFrames.py **</p>
+<blockquote>
+<div><p>After the annotation process is finished (result: xxx.csv file including frame ID and class_name) this script can be
+used to extract all annotated frames.</p>
+</div></blockquote>
+<p>** showAnnotatedFrames.py **</p>
+<blockquote>
+<div><p>This script is used to step through all annotated frames.</p>
+</div></blockquote>
+</div>
 <div class="section" id="api-description">
 <h1>API Description<a class="headerlink" href="#api-description" title="Permalink to this headline">¶</a></h1>
 <p>This section gives an overview of all classes and modules in <em>stc</em> as well as an code description.</p>
@@ -139,6 +160,7 @@ The following instructions have to be done to used this library in your own appl
   <ul>
 <li><a class="reference internal" href="#">Package Overview</a></li>
 <li><a class="reference internal" href="#setup-instructions">Setup  instructions</a></li>
+<li><a class="reference internal" href="#dataset-generator">Dataset Generator</a></li>
 <li><a class="reference internal" href="#api-description">API Description</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
 <li><a class="reference internal" href="#references">References</a></li>

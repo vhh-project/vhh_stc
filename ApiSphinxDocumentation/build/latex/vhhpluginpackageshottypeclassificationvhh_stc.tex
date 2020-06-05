@@ -181,6 +181,34 @@ Currently there is an issue in the \sphinxstyleemphasis{setup.py} script. Theref
 \end{sphinxadmonition}
 
 
+\chapter{Dataset Generator}
+\label{\detokenize{index:dataset-generator}}
+In the \sphinxstyleemphasis{Develop/dataset\_annotation\_scripts} helper scripts are included to generate a annotated dataset to train
+a the classification model.
+
+** annotationToolShotTypes\_v2.py **
+\begin{quote}
+
+This script provides a simple frame player GUI to iterate over the frames included in a specified folder. Moreover,
+each frame can be annotated with a simple keyboard command to configured class names. The keyboard commands are
+explained in the script and a configuration section is placed at the beginning of the script. This tool can also be
+used in Windows by executing the batch script (python 3.6.x with opencv is required).
+\end{quote}
+
+** extractAnnotatedFrames.py **
+\begin{quote}
+
+After the annotation process is finished (result: xxx.csv file including frame ID and class\_name) this script can be
+used to extract all annotated frames.
+\end{quote}
+
+** showAnnotatedFrames.py **
+\begin{quote}
+
+This script is used to step through all annotated frames.
+\end{quote}
+
+
 \chapter{API Description}
 \label{\detokenize{index:api-description}}
 This section gives an overview of all classes and modules in \sphinxstyleemphasis{stc} as well as an code description.
