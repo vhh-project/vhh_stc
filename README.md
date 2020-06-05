@@ -5,9 +5,9 @@ This package includes all methods to classify a given shot/or image sequence in 
 
 ## Package Description
 
-PDF format: [vhh_stc_pdf](https://github.com/dahe-cvl/vhh_cmc/blob/master/ApiSphinxDocumentation/build/latex/vhhpluginpackageshottypeclassificationvhh_stc.pdf)
+PDF format: [vhh_stc_pdf](https://github.com/dahe-cvl/vhh_stc/blob/master/ApiSphinxDocumentation/build/latex/vhhpluginpackageshottypeclassificationvhh_stc.pdf)
     
-HTML format (only usable if repository is available in local storage): [vhh_stc_html](https://github.com/dahe-cvl/vhh_cmc/blob/master/ApiSphinxDocumentation/build/html/index.html)
+HTML format (only usable if repository is available in local storage): [vhh_stc_html](https://github.com/dahe-cvl/vhh_stc/blob/master/ApiSphinxDocumentation/build/html/index.html)
     
     
 ## Quick Setup
