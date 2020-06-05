@@ -64,19 +64,19 @@ Dataset Generator
 In the *Develop/dataset_annotation_scripts* helper scripts are included to generate a annotated dataset to train
 a the classification model.
 
-** annotationToolShotTypes_v2.py **
+**annotationToolShotTypes_v2.py**
 
    This script provides a simple frame player GUI to iterate over the frames included in a specified folder. Moreover,
    each frame can be annotated with a simple keyboard command to configured class names. The keyboard commands are
    explained in the script and a configuration section is placed at the beginning of the script. This tool can also be
    used in Windows by executing the batch script (python 3.6.x with opencv is required).
 
-** extractAnnotatedFrames.py **
+**extractAnnotatedFrames.py**
 
    After the annotation process is finished (result: xxx.csv file including frame ID and class_name) this script can be
    used to extract all annotated frames.
 
-** showAnnotatedFrames.py **
+**showAnnotatedFrames.py**
 
    This script is used to step through all annotated frames.
 
