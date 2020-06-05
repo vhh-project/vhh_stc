@@ -3,28 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
-Introduction
-============
-
-This python package is developed within the project `Visual History of the Holocaust`_ (VHH) started in Januray 2019.
-The major objective of this package is to provide interfaces and functions to classify image sequences
-(shots) in one out the four classes: Extreme Long Shot (ELS), Long Shot (LS), Medium Shot (MS) or Close-Up shot (CU).
-Those classes are the most significant cinematographic camera settings and represent the distance between an subject
-and the camera.
-
-This software package is installable and designed to reuse it in customized applications such as the `vhh_core`_ package. This
-module represents the main controller in the context of the VHH project.
-
-
-This documentation provides an API description of all classes, modules and member functions as well as
-the required setup descriptions.
-
-Methodology
-===========
-
-
-
 Package Overview
 ================
 
@@ -40,8 +18,6 @@ The following list give an overview of the folder structure of this python repos
    * **README.md**: this file gives a brief description of this repository (e.g. link to this documentation)
    * **requirements.txt**: this file holds all python lib dependencies and is needed to install the package in your own virtual environment
    * **setup.py**: this script is needed to install the stc package in your own virtual environment
-
-
 
 Setup  instructions
 ===================
