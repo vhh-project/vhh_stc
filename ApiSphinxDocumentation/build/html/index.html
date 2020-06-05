@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Package Overview &#8212; VHH Plugin Package: Shot Type Classification (vhh_stc) 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration class" href="Configuration.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Configuration.html" title="Configuration class"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">VHH Plugin Package: Shot Type Classification (vhh_stc) 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="package-overview">
+<h1>Package Overview<a class="headerlink" href="#package-overview" title="Permalink to this headline">¶</a></h1>
+<p>The following list give an overview of the folder structure of this python repository:</p>
+<p><em>name of repository</em>: vhh_stc</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>ApiSphinxDocumentation/</strong>: includes all files to generate the documentation as well as the created documentations (html, pdf)</p></li>
+<li><p><strong>config/</strong>: this folder includes the required configuration file</p></li>
+<li><p><strong>stc/</strong>: this folder represents the shot-type-classification module and builds the main part of this repository</p></li>
+<li><p><strong>Demo/</strong>: this folder includes a demo script to demonstrate how the package have to be used in customized applications</p></li>
+<li><p><strong>Develop/</strong>: includes scripts to train and evaluate the pytorch models. Furthermore, a script is included to create the package documentation (pdf, html)</p></li>
+<li><p><strong>README.md</strong>: this file gives a brief description of this repository (e.g. link to this documentation)</p></li>
+<li><p><strong>requirements.txt</strong>: this file holds all python lib dependencies and is needed to install the package in your own virtual environment</p></li>
+<li><p><strong>setup.py</strong>: this script is needed to install the stc package in your own virtual environment</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="setup-instructions">
+<h1>Setup  instructions<a class="headerlink" href="#setup-instructions" title="Permalink to this headline">¶</a></h1>
+<p>This package includes a setup.py script and a requirements.txt file which are needed to install this package for custom applications.
+The following instructions have to be done to used this library in your own application:</p>
+<p>Requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Ubuntu 18.04 LTS</p></li>
+<li><p>CUDA 10.1 + cuDNN</p></li>
+<li><p>python version 3.6.x</p></li>
+</ul>
+</div></blockquote>
+<p>Create a virtual environment:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>create a folder to a specified path (e.g. /xxx/vhh_stc/)</p></li>
+<li><p>python3 -m venv /xxx/vhh_stc/</p></li>
+</ul>
+</div></blockquote>
+<p>Activate the environment:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>source /xxx/vhh_stc/bin/activate</p></li>
+</ul>
+</div></blockquote>
+<p>Checkout vhh_stc repository to a specified folder:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>git clone <a class="reference external" href="https://github.com/dahe-cvl/vhh_stc">https://github.com/dahe-cvl/vhh_stc</a></p></li>
+</ul>
+</div></blockquote>
+<p>Install the stc package and all dependencies:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>change to the root directory of the repository (includes setup.py)</p></li>
+<li><p>python setup.py install</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can check the success of the installation by using the commend <em>pip list</em>. This command should give you a list with all installed python packages and it should include <em>vhh_stc</em></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently there is an issue in the <em>setup.py</em> script. Therefore the pytorch libraries have to be installed manually by running the following command:
+<em>pip install torch==1.5.0+cu101 torchvision==0.6.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html</em></p>
+</div>
+</div>
+<div class="section" id="api-description">
+<h1>API Description<a class="headerlink" href="#api-description" title="Permalink to this headline">¶</a></h1>
+<p>This section gives an overview of all classes and modules in <em>stc</em> as well as an code description.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Configuration.html">Configuration class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STC.html">STC class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Video.html">Video class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Models.html">Models - module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Datasets.html">Datasets module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CustomTransforms.html">CustomTransforms class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Shot.html">Shot class</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Package Overview</a></li>
+<li><a class="reference internal" href="#setup-instructions">Setup  instructions</a></li>
+<li><a class="reference internal" href="#api-description">API Description</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Configuration.html"
+                        title="next chapter">Configuration class</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Configuration.html" title="Configuration class"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">VHH Plugin Package: Shot Type Classification (vhh_stc) 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Daniel Helm.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

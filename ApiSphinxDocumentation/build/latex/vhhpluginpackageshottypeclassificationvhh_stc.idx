@@ -1,0 +1,21 @@
+\indexentry{Configuration (class in stc.Configuration)@\spxentry{Configuration}\spxextra{class in stc.Configuration}|hyperpage}{3}
+\indexentry{loadConfig() (stc.Configuration.Configuration method)@\spxentry{loadConfig()}\spxextra{stc.Configuration.Configuration method}|hyperpage}{3}
+\indexentry{STC (class in stc.STC)@\spxentry{STC}\spxextra{class in stc.STC}|hyperpage}{3}
+\indexentry{exportStcResults() (stc.STC.STC method)@\spxentry{exportStcResults()}\spxextra{stc.STC.STC method}|hyperpage}{3}
+\indexentry{loadSbdResults() (stc.STC.STC method)@\spxentry{loadSbdResults()}\spxextra{stc.STC.STC method}|hyperpage}{3}
+\indexentry{runModel() (stc.STC.STC method)@\spxentry{runModel()}\spxextra{stc.STC.STC method}|hyperpage}{4}
+\indexentry{runOnSingleVideo() (stc.STC.STC method)@\spxentry{runOnSingleVideo()}\spxextra{stc.STC.STC method}|hyperpage}{4}
+\indexentry{Video (class in stc.Video)@\spxentry{Video}\spxextra{class in stc.Video}|hyperpage}{4}
+\indexentry{getFrame() (stc.Video.Video method)@\spxentry{getFrame()}\spxextra{stc.Video.Video method}|hyperpage}{4}
+\indexentry{load() (stc.Video.Video method)@\spxentry{load()}\spxextra{stc.Video.Video method}|hyperpage}{4}
+\indexentry{printVIDInfo() (stc.Video.Video method)@\spxentry{printVIDInfo()}\spxextra{stc.Video.Video method}|hyperpage}{4}
+\indexentry{module@\spxentry{module}!stc.Models@\spxentry{stc.Models}|hyperpage}{5}
+\indexentry{stc.Models@\spxentry{stc.Models}!module@\spxentry{module}|hyperpage}{5}
+\indexentry{loadModel() (in module stc.Models)@\spxentry{loadModel()}\spxextra{in module stc.Models}|hyperpage}{5}
+\indexentry{module@\spxentry{module}!stc.Datasets@\spxentry{stc.Datasets}|hyperpage}{5}
+\indexentry{stc.Datasets@\spxentry{stc.Datasets}!module@\spxentry{module}|hyperpage}{5}
+\indexentry{loadDatasetFromFolder() (in module stc.Datasets)@\spxentry{loadDatasetFromFolder()}\spxextra{in module stc.Datasets}|hyperpage}{5}
+\indexentry{ToGrayScale (class in stc.CustomTransforms)@\spxentry{ToGrayScale}\spxextra{class in stc.CustomTransforms}|hyperpage}{5}
+\indexentry{Shot (class in stc.Shot)@\spxentry{Shot}\spxextra{class in stc.Shot}|hyperpage}{5}
+\indexentry{convert2String() (stc.Shot.Shot method)@\spxentry{convert2String()}\spxextra{stc.Shot.Shot method}|hyperpage}{5}
+\indexentry{printShotInfo() (stc.Shot.Shot method)@\spxentry{printShotInfo()}\spxextra{stc.Shot.Shot method}|hyperpage}{5}
