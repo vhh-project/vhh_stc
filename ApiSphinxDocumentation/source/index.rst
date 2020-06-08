@@ -80,7 +80,10 @@ a the classification model.
 
    This script is used to step through all annotated frames.
 
+Parameter Description
+=====================
 
+.. autoyaml:: ../config/config_vhh_test.yaml
 
 API Description
 ===============

@@ -5,56 +5,56 @@
 \let\spxextra \sphinxstyleindexextra
 
   \bigletter C
-  \item \spxentry{Configuration}\spxextra{class in stc.Configuration}, \hyperpage{4}
-  \item \spxentry{convert2String()}\spxextra{stc.Shot.Shot method}, \hyperpage{6}
+  \item \spxentry{Configuration}\spxextra{class in stc.Configuration}, \hyperpage{5}
+  \item \spxentry{convert2String()}\spxextra{stc.Shot.Shot method}, \hyperpage{7}
 
   \indexspace
   \bigletter E
-  \item \spxentry{exportStcResults()}\spxextra{stc.STC.STC method}, \hyperpage{4}
+  \item \spxentry{exportStcResults()}\spxextra{stc.STC.STC method}, \hyperpage{5}
 
   \indexspace
   \bigletter G
-  \item \spxentry{getFrame()}\spxextra{stc.Video.Video method}, \hyperpage{5}
+  \item \spxentry{getFrame()}\spxextra{stc.Video.Video method}, \hyperpage{6}
 
   \indexspace
   \bigletter L
-  \item \spxentry{load()}\spxextra{stc.Video.Video method}, \hyperpage{5}
-  \item \spxentry{loadConfig()}\spxextra{stc.Configuration.Configuration method}, \hyperpage{4}
-  \item \spxentry{loadDatasetFromFolder()}\spxextra{in module stc.Datasets}, \hyperpage{6}
-  \item \spxentry{loadModel()}\spxextra{in module stc.Models}, \hyperpage{6}
-  \item \spxentry{loadSbdResults()}\spxextra{stc.STC.STC method}, \hyperpage{4}
+  \item \spxentry{load()}\spxextra{stc.Video.Video method}, \hyperpage{6}
+  \item \spxentry{loadConfig()}\spxextra{stc.Configuration.Configuration method}, \hyperpage{5}
+  \item \spxentry{loadDatasetFromFolder()}\spxextra{in module stc.Datasets}, \hyperpage{7}
+  \item \spxentry{loadModel()}\spxextra{in module stc.Models}, \hyperpage{7}
+  \item \spxentry{loadSbdResults()}\spxextra{stc.STC.STC method}, \hyperpage{5}
 
   \indexspace
   \bigletter M
   \item \spxentry{module}
-    \subitem \spxentry{stc.Datasets}, \hyperpage{6}
-    \subitem \spxentry{stc.Models}, \hyperpage{6}
+    \subitem \spxentry{stc.Datasets}, \hyperpage{7}
+    \subitem \spxentry{stc.Models}, \hyperpage{7}
 
   \indexspace
   \bigletter P
-  \item \spxentry{printShotInfo()}\spxextra{stc.Shot.Shot method}, \hyperpage{6}
-  \item \spxentry{printVIDInfo()}\spxextra{stc.Video.Video method}, \hyperpage{5}
+  \item \spxentry{printShotInfo()}\spxextra{stc.Shot.Shot method}, \hyperpage{7}
+  \item \spxentry{printVIDInfo()}\spxextra{stc.Video.Video method}, \hyperpage{6}
 
   \indexspace
   \bigletter R
-  \item \spxentry{runModel()}\spxextra{stc.STC.STC method}, \hyperpage{5}
-  \item \spxentry{runOnSingleVideo()}\spxextra{stc.STC.STC method}, \hyperpage{5}
+  \item \spxentry{runModel()}\spxextra{stc.STC.STC method}, \hyperpage{6}
+  \item \spxentry{runOnSingleVideo()}\spxextra{stc.STC.STC method}, \hyperpage{6}
 
   \indexspace
   \bigletter S
-  \item \spxentry{Shot}\spxextra{class in stc.Shot}, \hyperpage{6}
-  \item \spxentry{STC}\spxextra{class in stc.STC}, \hyperpage{4}
+  \item \spxentry{Shot}\spxextra{class in stc.Shot}, \hyperpage{7}
+  \item \spxentry{STC}\spxextra{class in stc.STC}, \hyperpage{5}
   \item \spxentry{stc.Datasets}
-    \subitem \spxentry{module}, \hyperpage{6}
+    \subitem \spxentry{module}, \hyperpage{7}
   \item \spxentry{stc.Models}
-    \subitem \spxentry{module}, \hyperpage{6}
+    \subitem \spxentry{module}, \hyperpage{7}
 
   \indexspace
   \bigletter T
-  \item \spxentry{ToGrayScale}\spxextra{class in stc.CustomTransforms}, \hyperpage{6}
+  \item \spxentry{ToGrayScale}\spxextra{class in stc.CustomTransforms}, \hyperpage{7}
 
   \indexspace
   \bigletter V
-  \item \spxentry{Video}\spxextra{class in stc.Video}, \hyperpage{5}
+  \item \spxentry{Video}\spxextra{class in stc.Video}, \hyperpage{6}
 
 \end{sphinxtheindex}
