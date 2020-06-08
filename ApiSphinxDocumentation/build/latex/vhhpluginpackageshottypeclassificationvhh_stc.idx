@@ -1,21 +1,21 @@
-\indexentry{Configuration (class in stc.Configuration)@\spxentry{Configuration}\spxextra{class in stc.Configuration}|hyperpage}{4}
-\indexentry{loadConfig() (stc.Configuration.Configuration method)@\spxentry{loadConfig()}\spxextra{stc.Configuration.Configuration method}|hyperpage}{4}
-\indexentry{STC (class in stc.STC)@\spxentry{STC}\spxextra{class in stc.STC}|hyperpage}{4}
-\indexentry{exportStcResults() (stc.STC.STC method)@\spxentry{exportStcResults()}\spxextra{stc.STC.STC method}|hyperpage}{4}
-\indexentry{loadSbdResults() (stc.STC.STC method)@\spxentry{loadSbdResults()}\spxextra{stc.STC.STC method}|hyperpage}{4}
-\indexentry{runModel() (stc.STC.STC method)@\spxentry{runModel()}\spxextra{stc.STC.STC method}|hyperpage}{5}
-\indexentry{runOnSingleVideo() (stc.STC.STC method)@\spxentry{runOnSingleVideo()}\spxextra{stc.STC.STC method}|hyperpage}{5}
-\indexentry{Video (class in stc.Video)@\spxentry{Video}\spxextra{class in stc.Video}|hyperpage}{5}
-\indexentry{getFrame() (stc.Video.Video method)@\spxentry{getFrame()}\spxextra{stc.Video.Video method}|hyperpage}{5}
-\indexentry{load() (stc.Video.Video method)@\spxentry{load()}\spxextra{stc.Video.Video method}|hyperpage}{5}
-\indexentry{printVIDInfo() (stc.Video.Video method)@\spxentry{printVIDInfo()}\spxextra{stc.Video.Video method}|hyperpage}{5}
-\indexentry{module@\spxentry{module}!stc.Models@\spxentry{stc.Models}|hyperpage}{6}
-\indexentry{stc.Models@\spxentry{stc.Models}!module@\spxentry{module}|hyperpage}{6}
-\indexentry{loadModel() (in module stc.Models)@\spxentry{loadModel()}\spxextra{in module stc.Models}|hyperpage}{6}
-\indexentry{module@\spxentry{module}!stc.Datasets@\spxentry{stc.Datasets}|hyperpage}{6}
-\indexentry{stc.Datasets@\spxentry{stc.Datasets}!module@\spxentry{module}|hyperpage}{6}
-\indexentry{loadDatasetFromFolder() (in module stc.Datasets)@\spxentry{loadDatasetFromFolder()}\spxextra{in module stc.Datasets}|hyperpage}{6}
-\indexentry{ToGrayScale (class in stc.CustomTransforms)@\spxentry{ToGrayScale}\spxextra{class in stc.CustomTransforms}|hyperpage}{6}
-\indexentry{Shot (class in stc.Shot)@\spxentry{Shot}\spxextra{class in stc.Shot}|hyperpage}{6}
-\indexentry{convert2String() (stc.Shot.Shot method)@\spxentry{convert2String()}\spxextra{stc.Shot.Shot method}|hyperpage}{6}
-\indexentry{printShotInfo() (stc.Shot.Shot method)@\spxentry{printShotInfo()}\spxextra{stc.Shot.Shot method}|hyperpage}{6}
+\indexentry{Configuration (class in stc.Configuration)@\spxentry{Configuration}\spxextra{class in stc.Configuration}|hyperpage}{5}
+\indexentry{loadConfig() (stc.Configuration.Configuration method)@\spxentry{loadConfig()}\spxextra{stc.Configuration.Configuration method}|hyperpage}{5}
+\indexentry{STC (class in stc.STC)@\spxentry{STC}\spxextra{class in stc.STC}|hyperpage}{5}
+\indexentry{exportStcResults() (stc.STC.STC method)@\spxentry{exportStcResults()}\spxextra{stc.STC.STC method}|hyperpage}{5}
+\indexentry{loadSbdResults() (stc.STC.STC method)@\spxentry{loadSbdResults()}\spxextra{stc.STC.STC method}|hyperpage}{5}
+\indexentry{runModel() (stc.STC.STC method)@\spxentry{runModel()}\spxextra{stc.STC.STC method}|hyperpage}{6}
+\indexentry{runOnSingleVideo() (stc.STC.STC method)@\spxentry{runOnSingleVideo()}\spxextra{stc.STC.STC method}|hyperpage}{6}
+\indexentry{Video (class in stc.Video)@\spxentry{Video}\spxextra{class in stc.Video}|hyperpage}{6}
+\indexentry{getFrame() (stc.Video.Video method)@\spxentry{getFrame()}\spxextra{stc.Video.Video method}|hyperpage}{6}
+\indexentry{load() (stc.Video.Video method)@\spxentry{load()}\spxextra{stc.Video.Video method}|hyperpage}{6}
+\indexentry{printVIDInfo() (stc.Video.Video method)@\spxentry{printVIDInfo()}\spxextra{stc.Video.Video method}|hyperpage}{6}
+\indexentry{module@\spxentry{module}!stc.Models@\spxentry{stc.Models}|hyperpage}{7}
+\indexentry{stc.Models@\spxentry{stc.Models}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{loadModel() (in module stc.Models)@\spxentry{loadModel()}\spxextra{in module stc.Models}|hyperpage}{7}
+\indexentry{module@\spxentry{module}!stc.Datasets@\spxentry{stc.Datasets}|hyperpage}{7}
+\indexentry{stc.Datasets@\spxentry{stc.Datasets}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{loadDatasetFromFolder() (in module stc.Datasets)@\spxentry{loadDatasetFromFolder()}\spxextra{in module stc.Datasets}|hyperpage}{7}
+\indexentry{ToGrayScale (class in stc.CustomTransforms)@\spxentry{ToGrayScale}\spxextra{class in stc.CustomTransforms}|hyperpage}{7}
+\indexentry{Shot (class in stc.Shot)@\spxentry{Shot}\spxextra{class in stc.Shot}|hyperpage}{7}
+\indexentry{convert2String() (stc.Shot.Shot method)@\spxentry{convert2String()}\spxextra{stc.Shot.Shot method}|hyperpage}{7}
+\indexentry{printShotInfo() (stc.Shot.Shot method)@\spxentry{printShotInfo()}\spxextra{stc.Shot.Shot method}|hyperpage}{7}
