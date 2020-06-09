@@ -34,8 +34,8 @@ print("all dependencies installed!")
 
 # install sbd package
 setup(
-     name='stc',
-     version='0.1.0',
+     name='vhh_stc',
+     version='1.0.0',
      author="Daniel Helm",
      author_email="daniel.helm@tuwien.ac.at",
      description="Shot Type Classification Package",
