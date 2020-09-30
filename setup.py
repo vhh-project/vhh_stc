@@ -22,10 +22,10 @@ setup(
      version='1.0.0',
      author="Daniel Helm",
      author_email="daniel.helm@tuwien.ac.at",
-     description="Shot Boundary Detection Package",
+     description="Shot Type Classification Package",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/dahe-cvl/vhh_tc",
+     url="https://github.com/dahe-cvl/vhh_stc",
      packages=find_packages(),
      install_requires=install_requires
 )
