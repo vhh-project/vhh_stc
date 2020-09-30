@@ -1,15 +1,15 @@
 import numpy as np
-from stc.Video import Video
+from vhh_stc.Video import Video
 import os
-from stc.Models import loadModel
-from stc.CustomTransforms import ToGrayScale
+from vhh_stc.Models import loadModel
+from vhh_stc.CustomTransforms import ToGrayScale
 import torch
 from PIL import Image
 from torch.autograd import Variable
 from torch.utils import data
 from torchvision import transforms
-from stc.utils import *
-from stc.Configuration import Configuration
+from vhh_stc.utils import *
+from vhh_stc.Configuration import Configuration
 import cv2
 import json
 

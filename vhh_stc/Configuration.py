@@ -1,4 +1,4 @@
-from stc.utils import *
+from vhh_stc.utils import *
 import yaml
 
 

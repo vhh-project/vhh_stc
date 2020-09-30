@@ -1,5 +1,5 @@
 
-from stc.STC import STC
+from vhh_stc.STC import STC
 import numpy as np
 import os
 

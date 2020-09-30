@@ -36,25 +36,25 @@ The following instructions have to be done to used this library in your own appl
 
 **Install the stc package and all dependencies:**
 
+   * Update pip and setuptools (tested using pip\==20.2.3 and setuptools==50.3.0)
+   * Install the Wheel package: ```pip install wheel```
    * change to the root directory of the repository (includes setup.py)
-   * python setup.py install
+   * ```python setup.py bdist_wheel```
+   * The aforementioned command should create a /dist directory containing a wheel. Install the package using ```python -m pip install dist/xxx.whl```
+   
+> **_NOTE:_**
+You can check the success of the installation by using the commend *pip list*. This command should give you a list
+with all installed python packages and it should include *vhh-stc*.
+
+**Install PyTorch :**
+
+Install a Version of PyTorch depending on your setup. Consult the [PyTorch website](https://pytorch.org/get-started/locally/) for detailed instructions.
 
 **Setup environment variables:**
 
    * source /data/dhelm/python_virtenv/vhh_sbd_env/bin/activate
    * export CUDA_VISIBLE_DEVICES=1
    * export PYTHONPATH=$PYTHONPATH:/XXX/vhh_stc/:/XXX/vhh_stc/Develop/:/XXX/vhh_stc/Demo/
-
-
-> **_NOTE:_**
-  You can check the success of the installation by using the commend *pip list*. This command should give you a list 
-> with all installed python packages and it should include *vhh_stc*
->
-
-> **_NOTE:_**
-  Currently there is an issue in the *setup.py* script. Therefore the pytorch libraries have to be installed manually 
-> by running the following command: 
-> *pip install torch==1.5.0+cu101 torchvision==0.6.0+cu101 -f https://download.pytorch.org/whl/torch_stable.html*
 
 **Run demo script**
 
