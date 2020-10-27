@@ -13,18 +13,18 @@ Development:
 PreProcessing:
   ###
   # This flag is used to to specify the resize dimension.
-  RESIZE_DIM: 128, 128      # resize dimension -> height, width
+  RESIZE_DIM: 256, 256      # resize dimension -> height, width
   ###
   # This parameter is used to to specify the mean values (RGB channels) used for the pre-trained model.
-  MEAN_VAL: [94.05657, 94.05657, 94.05657]  # mean values per color channel
+  MEAN_VAL: [0.34886327, 0.3442737, 0.34067717]  # mean values per color channel
   ###
   # This parameter is used to to specify the standard deviation values (RGB channels) used for the pre-trained model.
-  STD_DEV: [57.99793, 57.99793, 57.99793]   # standard deviation per color channel
+  STD_DEV: [ 0.25564876, 0.2566002, 0.25729373]   # standard deviation per color channel
 
 StcCore:
   ###
-  # This parameter is used to specify the class names.
-  CLASS_NAMES: ["ELS","LS","MS","CU"]
+  # This parameter is used to specify the class names. ["ELS","LS","MS","CU"]
+  CLASS_NAMES: ["CU","ELS", "I", "LS", "MS", "NA"]
   ###
   # This parameter is used to specify the batch size.
   BATCH_SIZE: 64
@@ -46,7 +46,7 @@ StcCore:
   SAVE_FINAL_RESULTS: 1     # 1 ... yes 0 ... no
   ###
   # This parameter is used to specify the path for saving the final results.
-  PATH_FINAL_RESULTS: "/data/share/maxrecall_vhh_mmsi/videos/results/stc/final_results/"
+  PATH_FINAL_RESULTS: "/data/share/maxrecall_vhh_mmsi/release/videos/results/stc/final_results/"
   ###
   # This parameter is used to specify the prefix for the results file.
   PREFIX_FINAL_RESULTS: "results_"
@@ -55,13 +55,13 @@ StcCore:
   POSTFIX_FINAL_RESULTS: "csv"
   ###
   # This parameter is used to specify the path to the videos.
-  PATH_VIDEOS: "/data/share/maxrecall_vhh_mmsi/videos/downloaded/"
+  PATH_VIDEOS: "/data/share/maxrecall_vhh_mmsi/release/videos/downloaded/"
   ###
   # This parameter is used to specify a decision threshold.
   THRESHOLD: 0.8                 # value [0-1]
   ###
   # This parameter is used to specify the path to the pre-trained model.
-  PATH_PRETRAINED_MODEL: "/data/share/maxrecall_vhh_mmsi/videos/pre_trained_models/stc/20200207_BasicCNN_db_v8_Vgg_ExpNum_001/"
+  PATH_PRETRAINED_MODEL: "/data/share/jocch_paper_stc_results/20201026_stc_v4_vgg16_ExpNum_000/"
 
 Evaluation:
   ###

@@ -93,14 +93,13 @@ class STC(object):
             transforms.Resize((int(vid_instance.height), vid_instance.width)),
             transforms.CenterCrop((int(vid_instance.height), int(vid_instance.height))),
             transforms.Resize(self.config_instance.resize_dim),
-            ToGrayScale(),
             transforms.ToTensor(),
-            transforms.Normalize((self.config_instance.mean_values[0] / 255.0,
-                                  self.config_instance.mean_values[1] / 255.0,
-                                  self.config_instance.mean_values[2] / 255.0),
-                                 (self.config_instance.std_dev[0] / 255.0,
-                                  self.config_instance.std_dev[1] / 255.0,
-                                  self.config_instance.std_dev[2] / 255.0))
+            transforms.Normalize((self.config_instance.mean_values[0],
+                                  self.config_instance.mean_values[1],
+                                  self.config_instance.mean_values[2]),
+                                 (self.config_instance.std_dev[0],
+                                  self.config_instance.std_dev[1],
+                                  self.config_instance.std_dev[2]))
         ])
 
         # read all frames of video
