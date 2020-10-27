@@ -32,8 +32,8 @@ class STC(object):
             printCustom("No configuration file specified!", STDOUT_TYPE.ERROR)
             exit()
 
-        self.config_instance = Configuration(config_file);
-        self.config_instance.loadConfig();
+        self.config_instance = Configuration(config_file)
+        self.config_instance.loadConfig()
 
         if (self.config_instance.debug_flag == True):
             print("DEBUG MODE activated!")
@@ -117,7 +117,7 @@ class STC(object):
                 frame = preprocess(frame)
                 frame_l.append(frame)
             else:
-                break;
+                break
         # exit()
 
         all_tensors_l = torch.stack(frame_l)
@@ -224,14 +224,11 @@ class STC(object):
 
         preds_np = np.array(preds_l).flatten()
         indices, distr = np.unique(preds_np, return_counts=True)
-
-        idx = distr.argmax(0)
-        #print(idx)
-
+        tmp_idx = np.zeros(len(self.config_instance.class_names)).astype('int')
+        tmp_idx[indices] = distr
+        idx = tmp_idx.argmax(0)
         class_name = self.config_instance.class_names[idx]
-        nHits = distr[idx]
-        #print(class_name)
-        #print(nHits)
+        nHits = tmp_idx[idx]
 
         return class_name, nHits, preds_np
 
