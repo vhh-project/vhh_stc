@@ -23,8 +23,8 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
     :return: the specified instance of the model
     """
 
-    print("Load model architecture ... ");
-    if (model_arch == "Resnet"):
+    print("Load model architecture ... ")
+    if (model_arch == "resnet50"):
         print("Resnet architecture selected ...")
 
         model = models.resnet50(pretrained=True)
@@ -47,17 +47,63 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
             model_dict_state = torch.load(pre_trained_path)
             model.load_state_dict(model_dict_state['net']) #, strict=False
 
-    elif (model_arch == "Vgg"):
+    elif (model_arch == "resnet18"):
+        print("Resnet architecture selected ...")
+
+        model = models.resnet18(pretrained=True)
+
+        for params in model.parameters():
+            params.requires_grad = True
+
+        num_ftrs = model.fc.in_features
+        model.fc = torch.nn.Linear(num_ftrs, len(classes))
+
+        # Find total parameters and trainable parameters
+        total_params = sum(p.numel() for p in model.parameters())
+        print("total_params:" + str(total_params))
+        total_trainable_params = sum(
+            p.numel() for p in model.parameters() if p.requires_grad)
+        print("total_trainable_params: " + str(total_trainable_params))
+
+        if (pre_trained_path != None):
+            print("load pre_trained weights ... ")
+            model_dict_state = torch.load(pre_trained_path)
+            model.load_state_dict(model_dict_state['net']) #, strict=False
+
+    elif (model_arch == "resnet152"):
+        print("Resnet architecture selected ...")
+
+        model = models.resnet152(pretrained=True)
+
+        for params in model.parameters():
+            params.requires_grad = True
+
+        num_ftrs = model.fc.in_features
+        model.fc = torch.nn.Linear(num_ftrs, len(classes))
+
+        # Find total parameters and trainable parameters
+        total_params = sum(p.numel() for p in model.parameters())
+        print("total_params:" + str(total_params))
+        total_trainable_params = sum(
+            p.numel() for p in model.parameters() if p.requires_grad)
+        print("total_trainable_params: " + str(total_trainable_params))
+
+        if (pre_trained_path != None):
+            print("load pre_trained weights ... ")
+            model_dict_state = torch.load(pre_trained_path)
+            model.load_state_dict(model_dict_state['net']) #, strict=False
+
+    elif (model_arch == "vgg16"):
         print("Vgg architecture selected ...")
 
-        model = models.vgg19(pretrained=True)
+        model = models.vgg16(pretrained=True)
         # print(model)
 
         for params in model.parameters():
             params.requires_grad = True
 
         layers = model.children()
-        print("number of layers: " + str(type(layers)));
+        print("number of layers: " + str(type(layers)))
 
         for params in model.parameters():
             params.requires_grad = True
@@ -77,16 +123,11 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
             model_dict_state = torch.load(pre_trained_path)
             model.load_state_dict(model_dict_state['net']) #, strict=False
 
-    elif (model_arch == "Densenet"):
+    elif (model_arch == "densenet121"):
         print("Densenet architecture selected ...")
 
-        model = models.densenet201(pretrained=True)
+        model = models.densenet121(pretrained=True)
         # print(model)
-
-        count = 0
-        for child in model.children():
-            count += 1
-        print("number of layers: " + str(count));
 
         for params in model.parameters():
             params.requires_grad = True
@@ -111,19 +152,18 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
         print("alexnet architecture selected ...")
 
         model = models.alexnet(pretrained=True)
-        # print(model)
-
-        count = 0
-        for child in model.children():
-            count += 1
-        print("number of layers: " + str(count));
 
         for params in model.parameters():
             params.requires_grad = True
 
-        num_ftrs = model.classifier.in_features
-        model.classifier = torch.nn.Linear(num_ftrs, len(classes))
-        # print(model)
+        model.classifier = nn.Sequential(nn.Dropout(p=0.5, inplace=False),
+                                       nn.Linear(in_features=9216, out_features=4096, bias=True),
+                                       nn.ReLU(inplace=True),
+                                       nn.Dropout(p=0.5, inplace=False),
+                                       nn.Linear(in_features=4096, out_features=4096, bias=True),
+                                       nn.ReLU(inplace=True),
+                                       nn.Linear(in_features=4096, out_features=len(classes), bias=True)
+                                          )
 
         # Find total parameters and trainable parameters
         total_params = sum(p.numel() for p in model.parameters())
@@ -131,7 +171,6 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
         total_trainable_params = sum(
             p.numel() for p in model.parameters() if p.requires_grad)
         print("total_trainable_params: " + str(total_trainable_params))
-
     else:
         model = None
         print("ERROR: select valid model architecture!")
