@@ -147,30 +147,6 @@ def loadModel(model_arch="", classes=None, pre_trained_path=None):
             print("load pre_trained weights ... ")
             model_dict_state = torch.load(pre_trained_path)
             model.load_state_dict(model_dict_state['net']) #, strict=False
-
-    elif (model_arch == "alexnet"):
-        print("alexnet architecture selected ...")
-
-        model = models.alexnet(pretrained=True)
-
-        for params in model.parameters():
-            params.requires_grad = True
-
-        model.classifier = nn.Sequential(nn.Dropout(p=0.5, inplace=False),
-                                       nn.Linear(in_features=9216, out_features=4096, bias=True),
-                                       nn.ReLU(inplace=True),
-                                       nn.Dropout(p=0.5, inplace=False),
-                                       nn.Linear(in_features=4096, out_features=4096, bias=True),
-                                       nn.ReLU(inplace=True),
-                                       nn.Linear(in_features=4096, out_features=len(classes), bias=True)
-                                          )
-
-        # Find total parameters and trainable parameters
-        total_params = sum(p.numel() for p in model.parameters())
-        print("total_params:" + str(total_params))
-        total_trainable_params = sum(
-            p.numel() for p in model.parameters() if p.requires_grad)
-        print("total_trainable_params: " + str(total_trainable_params))
     else:
         model = None
         print("ERROR: select valid model architecture!")
