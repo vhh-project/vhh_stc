@@ -4,7 +4,7 @@ import os
 config_file = "/caa/Homes01/dhelm/working/vhh/develop/vhh_stc/config/config_vhh_test.yaml"
 stc_instance = STC(config_file)
 
-results_path = "/data/share/maxrecall_vhh_mmsi/release/videos/results/sbd/final_results/"
+results_path = "/data/share/maxrecall_vhh_mmsi/develop/videos/results/sbd/final_results/"
 results_file_list = os.listdir(results_path)
 print(results_file_list)
 

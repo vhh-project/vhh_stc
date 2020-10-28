@@ -83,7 +83,7 @@ class STC(object):
         else:
             num_shots = len(shots_np)
 
-        vid_name = shots_np[0][1]
+        vid_name = shots_np[0][0]
         vid_instance = Video()
         vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
 
@@ -124,8 +124,8 @@ class STC(object):
         results_stc_l = []
         for idx in range(0, num_shots):
             #print(shots_np[idx])
-            shot_id = int(shots_np[idx][0])
-            vid_name = str(shots_np[idx][1])
+            shot_id = int(shots_np[idx][1])
+            vid_name = str(shots_np[idx][0])
             start = int(shots_np[idx][2])
             stop = int(shots_np[idx][3])
 
