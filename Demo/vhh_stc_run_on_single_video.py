@@ -1,10 +1,10 @@
 from vhh_stc.STC import STC
 import os
 
-config_file = "/home/dhelm/VHH_Develop/installed_pkg/vhh_stc/config/config_vhh_test.yaml"
+config_file = "/caa/Homes01/dhelm/working/vhh/develop/vhh_stc/config/config_vhh_test.yaml"
 stc_instance = STC(config_file)
 
-results_path = "/data/share/datasets/vhh_mmsi_test_db_v2/annotations/sbd/"
+results_path = "/data/share/maxrecall_vhh_mmsi/release/videos/results/sbd/final_results/"
 results_file_list = os.listdir(results_path)
 print(results_file_list)
 
