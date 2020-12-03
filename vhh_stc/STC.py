@@ -36,8 +36,12 @@ class STC(object):
         self.config_instance.loadConfig()
 
         if (self.config_instance.debug_flag == True):
-            print("DEBUG MODE activated!")
-            self.debug_results = "/data/share/maxrecall_vhh_mmsi/videos/results/stc/develop/"
+            self.debug_results = "./debug_results/"
+            if not os.path.exists(self.debug_results):
+                os.mkdir(self.debug_results)
+        else:
+            if not os.path.exists(self.config_instance.path_final_results):
+                os.mkdir(self.config_instance.path_final_results)
 
     def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
         """
@@ -58,11 +62,7 @@ class STC(object):
             print("ERROR: you have to set a valid max_recall_id [1-n]!")
             exit()
 
-        if(self.config_instance.debug_flag == True):
-            # load shot list from result file
-            shots_np = self.loadSbdResults(self.config_instance.sbd_results_path)
-        else:
-            shots_np = shots_per_vid_np
+        shots_np = shots_per_vid_np
 
         if (len(shots_np) == 0):
             print("ERROR: there must be at least one shot in the list!")
@@ -102,34 +102,16 @@ class STC(object):
                                   self.config_instance.std_dev[2]))
         ])
 
-        # read all frames of video
-        cap = cv2.VideoCapture(self.config_instance.path_videos + "/" + vid_name)
-        frame_l = []
-        cnt = 0
-        while (True):
-            cnt = cnt + 1
-            ret, frame = cap.read()
-            # print(cnt)
-            # print(ret)
-            # print(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-            if (ret == True):
-                frame = preprocess(frame)
-                frame_l.append(frame)
-            else:
-                break
-        # exit()
-
-        all_tensors_l = torch.stack(frame_l)
         frame_cnt = 0
         results_stc_l = []
-        for idx in range(0, num_shots):
-            #print(shots_np[idx])
-            shot_id = int(shots_np[idx][1])
-            vid_name = str(shots_np[idx][0])
-            start = int(shots_np[idx][2])
-            stop = int(shots_np[idx][3])
+        for i, shot in enumerate(vid_instance.getFramesByShots(shots_np, preprocess_pytorch=preprocess)):
+            if (i >= num_shots):
+                break
 
-            shot_tensors = all_tensors_l[start:stop+1, :, :, :]
+            shot_tensors = shot["Tensors"]
+            shot_id = int(shot["sid"])
+            start = int(shot["start"])
+            stop = int(shot["end"])
 
             # run classifier
             class_name, nHits, all_preds_np = self.runModel(model, shot_tensors)

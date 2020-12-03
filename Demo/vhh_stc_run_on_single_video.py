@@ -1,19 +1,25 @@
 from vhh_stc.STC import STC
 import os
 
-config_file = "/caa/Homes01/dhelm/working/vhh/develop/vhh_stc/config/config_vhh_test.yaml"
+config_file = "./config/config_vhh_test.yaml"
 stc_instance = STC(config_file)
 
-results_path = "/data/share/maxrecall_vhh_mmsi/develop/videos/results/sbd/final_results/"
-results_file_list = os.listdir(results_path)
-print(results_file_list)
-
-for file in results_file_list:
-    print(file)
-    shots_np = stc_instance.loadSbdResults(results_path + file)
-    print(shots_np)
-    max_recall_id = int(file.split('.')[0])
+if(stc_instance.config_instance.debug_flag == True):
+    print("DEBUG MODE activated!")
+    sbd_results_file = stc_instance.config_instance.sbd_results_path
+    shots_np = stc_instance.loadSbdResults(sbd_results_file)
+    max_recall_id = int(shots_np[0][0].split('.')[0])
     stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np, max_recall_id=max_recall_id)
+else:
+    results_path = "/data/share/datasets/vhh_mmsi_test_db_v3/annotations/sbd/"
+    results_file_list = os.listdir(results_path)
+    print(results_file_list)
+
+    for file in results_file_list:
+        shots_np = stc_instance.loadSbdResults(results_path + file)
+        max_recall_id = int(file.split('.')[0])
+        stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np, max_recall_id=max_recall_id)
+
 
 
 
