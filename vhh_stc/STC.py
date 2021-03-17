@@ -239,6 +239,32 @@ class STC(object):
 
         return lines_np
 
+    def loadStcResults(self, stc_results_path):
+        """
+        Method for loading shot boundary detection results as numpy array
+
+        .. note::
+            Only used in debug_mode.
+
+        :param sbd_results_path: [required] path to results file of shot boundary detection module (vhh_sbd)
+        :return: numpy array holding list of detected shots.
+        """
+
+        # open sbd results
+        fp = open(stc_results_path, 'r')
+        lines = fp.readlines()
+        lines = lines[1:]
+
+        lines_n = []
+        for i in range(0, len(lines)):
+            line = lines[i].replace('\n', '')
+            line_split = line.split(';')
+            lines_n.append([line_split[0], line_split[1], line_split[2], line_split[3], line_split[4]])
+        lines_np = np.array(lines_n)
+        #print(lines_np.shape)
+
+        return lines_np
+
     def exportStcResults(self, fName, stc_results_np: np.ndarray):
         """
         Method to export stc results as csv file.
@@ -267,6 +293,40 @@ class STC(object):
                 tmp_line = tmp_line + ";" + stc_results_np[i][c]
             fp.write(tmp_line + "\n")
 
+    def extract_frames_per_shot(self, shots_per_vid_np=None, number_of_frames=1):
+        print(f'extract {number_of_frames} frame(s) of each shot...')
 
+        if (type(shots_per_vid_np) == None):
+            print("ERROR: you have to set the parameter shots_per_vid_np!")
+            exit()
 
+        shots_np = shots_per_vid_np
 
+        if (len(shots_np) == 0):
+            print("ERROR: there must be at least one shot in the list!")
+            exit()
+
+        num_shots = len(shots_np)
+
+        vid_name = shots_np[0][0]
+        vid_instance = Video()
+        vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
+
+        for i, shot in enumerate(vid_instance.getFramesByShots(shots_np, preprocess_pytorch=None)):
+            if (i >= num_shots):
+                break
+
+            all_shots_np = shot["Images"]
+            shot_id = int(shot["sid"])
+            start = int(shot["start"])
+            stop = int(shot["end"])
+            shot_type = shots_np[i][4]
+
+            if(int(stop - start) > 2 and (shot_type == 'LS' or shot_type == 'MS')):
+                # calculate center image
+                center_pos = int((stop - start) / 2)
+                print(f'extract frame of video \"{vid_name}\" at position: {center_pos} start: {start} end: {stop} shot_id: {shot_id} shot_type: {shot_type}')
+
+                dst_path = "/data/ext/VHH/datasets/vhh_rd_nara_v1/frames/"
+                name = vid_instance.vidName.split('.')[0] + "_sid_" + str(shot_id) + "_pos_" + str(start + center_pos)
+                cv2.imwrite(dst_path + name + ".png", all_shots_np[center_pos])
