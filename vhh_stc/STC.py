@@ -39,9 +39,6 @@ class STC(object):
             self.debug_results = "./debug_results/"
             if not os.path.exists(self.debug_results):
                 os.mkdir(self.debug_results)
-        else:
-            if not os.path.exists(self.config_instance.path_final_results):
-                os.mkdir(self.config_instance.path_final_results)
 
     def runOnSingleVideo(self, shots_per_vid_np=None, max_recall_id=-1):
         """
@@ -185,7 +182,7 @@ class STC(object):
         # prepare pytorch dataloader
         dataset = data.TensorDataset(input_batch)  # create your datset
 
-        inference_dataloader = data.DataLoader(dataset, batch_size=self.config_instance.batch_size)  # create your dataloader
+        inference_dataloader = data.DataLoader(dataset, batch_size=self.config_instance.batch_size, num_workers=2)  # create your dataloader
 
         preds_l = []
         for i, inputs in enumerate(inference_dataloader):
