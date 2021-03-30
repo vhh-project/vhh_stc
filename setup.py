@@ -19,7 +19,7 @@ with open("requirements.txt", "r") as f:
 # install vhh_sbd package
 setup(
      name='vhh_stc',
-     version='1.0.0',
+     version='1.2.2',
      author="Daniel Helm",
      author_email="daniel.helm@tuwien.ac.at",
      description="Shot Type Classification Package",
