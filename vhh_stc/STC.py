@@ -290,7 +290,7 @@ class STC(object):
                 tmp_line = tmp_line + ";" + stc_results_np[i][c]
             fp.write(tmp_line + "\n")
 
-    def extract_frames_per_shot(self, shots_per_vid_np=None, number_of_frames=1):
+    def extract_frames_per_shot(self, shots_per_vid_np=None, number_of_frames=1, dst_path="", video_path=""):
         print(f'extract {number_of_frames} frame(s) of each shot...')
 
         if (type(shots_per_vid_np) == None):
@@ -307,7 +307,7 @@ class STC(object):
 
         vid_name = shots_np[0][0]
         vid_instance = Video()
-        vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
+        vid_instance.load(os.path.join(video_path, vid_name))
 
         for i, shot in enumerate(vid_instance.getFramesByShots(shots_np, preprocess_pytorch=None)):
             if (i >= num_shots):
@@ -324,6 +324,5 @@ class STC(object):
                 center_pos = int((stop - start) / 2)
                 print(f'extract frame of video \"{vid_name}\" at position: {center_pos} start: {start} end: {stop} shot_id: {shot_id} shot_type: {shot_type}')
 
-                dst_path = "/data/ext/VHH/datasets/vhh_rd_nara_v1/frames/"
                 name = vid_instance.vidName.split('.')[0] + "_sid_" + str(shot_id) + "_pos_" + str(start + center_pos)
                 cv2.imwrite(dst_path + name + ".png", all_shots_np[center_pos])
