@@ -305,7 +305,7 @@ class STC(object):
 
         num_shots = len(shots_np)
 
-        vid_name = shots_np[0][0]
+        vid_name = shots_np[0][0] + ".m4v"
         vid_instance = Video()
         vid_instance.load(os.path.join(video_path, vid_name))
 
@@ -319,10 +319,90 @@ class STC(object):
             stop = int(shot["end"])
             shot_type = shots_np[i][4]
 
-            if(int(stop - start) > 2 and (shot_type == 'LS' or shot_type == 'MS')):
+            if(int(stop - start) > number_of_frames): # and (shot_type == 'LS' or shot_type == 'MS' or shot_type == 'CU')):
                 # calculate center image
-                center_pos = int((stop - start) / 2)
-                print(f'extract frame of video \"{vid_name}\" at position: {center_pos} start: {start} end: {stop} shot_id: {shot_id} shot_type: {shot_type}')
+                if(number_of_frames == 1):
+                    center_pos = int((stop - start) / 2)
+                    print(f'extract frame of video \"{vid_name}\" at position: {center_pos} start: {start} end: {stop} shot_id: {shot_id} shot_type: {shot_type}')
+                    name = vid_instance.vidName.split('.')[0] + "_sid_" + str(shot_id) + "_pos_" + str(
+                        start + center_pos)
+                    cv2.imwrite(dst_path + str(name) + "_" + str(shot_type) + ".png", all_shots_np[center_pos])
+                elif(number_of_frames > 1):
+                    diff = int(stop - start)
+                    seq_len = int(diff / number_of_frames)
+                    print("-------")
+                    print(start)
+                    print(stop)
+                    print(diff)
+                    print(seq_len)
 
-                name = vid_instance.vidName.split('.')[0] + "_sid_" + str(shot_id) + "_pos_" + str(start + center_pos)
-                cv2.imwrite(dst_path + name + ".png", all_shots_np[center_pos])
+                    for p in range(int(seq_len / 2), diff, seq_len):
+                        pos = p
+                        print(pos)
+                        #continue
+                        print(
+                            f'extract frame of video \"{vid_name}\" at position: {pos} start: {start} end: {stop} shot_id: {shot_id} shot_type: {shot_type}')
+                        name = vid_instance.vidName.split('.')[0] + "_sid_" + str(shot_id) + "_pos_" + str(pos + start)
+                        cv2.imwrite(dst_path + name + ".png", all_shots_np[pos])
+
+    def export_shots_as_file(self, shots_np, dst_path="./vhh_mmsi_eval_db_tiny/shots/"):
+        print("export shot as video")
+
+        print(shots_np.shape)
+
+        vid_name = shots_np[0][0]
+        vid_instance = Video()
+        vid_instance.load(self.config_instance.path_videos + "/" + vid_name)
+
+        h = int(vid_instance.height)
+        w = int(vid_instance.width)
+        fps = int(vid_instance.frame_rate)
+
+        print(h)
+        print(w)
+        print(fps)
+
+        for i, data in enumerate(vid_instance.getFramesByShots(shots_np, preprocess_pytorch=None)):
+            frames_per_shots_np = data['Images']
+            shot_id = data['sid']
+            #vid_name = data['video_name']
+            start = data['start']
+            stop = data['end']
+            stc_class = data['stc_class']
+
+            print("######################")
+            print(i)
+            print(i % 32 == 0)
+            print(f'sid: {shot_id}')
+            #print(f'vid_name: {vid_name}')
+            print(f'frames_per_shot: {frames_per_shots_np.shape}')
+            print(f'start: {start}, end: {stop}')
+            print(f'stc_class: {stc_class}')
+
+            if (stc_class == "ELS" or stc_class == "LS" or stc_class == "MS" or stc_class == "CU" or stc_class == "I"):
+            #if (stc_class == "NA" or stc_class == "na"):
+                print("save video! ")
+
+                fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+                out = cv2.VideoWriter(dst_path + "/" + stc_class + "_" + str(i) + ".avi", fourcc, 12, (w, h))
+
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                bottomLeftCornerOfText = (30, 50)
+                fontScale = 1
+                fontColor = (255, 255, 255)
+                lineType = 2
+
+                for j in range(0, len(frames_per_shots_np)):
+                    frame = frames_per_shots_np[j]
+                    cv2.rectangle(frame, (0, 0), (350, 80), (0, 0, 255), -1)
+                    cv2.putText(frame, "Shot-Type: " + stc_class,
+                                bottomLeftCornerOfText,
+                                font,
+                                fontScale,
+                                fontColor,
+                                lineType)
+                    out.write(frame)
+                    #cv2.imshow("test", frame)
+                    #k = cv2.waitKey(10)
+
+                out.release()

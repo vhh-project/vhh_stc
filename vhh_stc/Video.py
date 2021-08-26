@@ -129,6 +129,7 @@ class Video(object):
             sid = int(shot[1])
             start_idx = int(shot[2])
             stop_idx = int(shot[3])
+            stc_class = shot[4]
 
             # print(f"Retrieving Frames for Shot {sid} (frames {frame_number} to {stop_idx})...")
             while frame_number <= stop_idx:
@@ -167,5 +168,7 @@ class Video(object):
                 yield {"Images": np.array(frames_orig),
                        "sid": sid,
                        "start": start_idx,
-                       "end": stop_idx}
+                       "end": stop_idx,
+                       "stc_class": stc_class
+                       }
         cap.release()

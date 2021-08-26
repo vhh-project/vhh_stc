@@ -11,9 +11,9 @@ if(stc_instance.config_instance.debug_flag == True):
     max_recall_id = int(shots_np[0][0].split('.')[0])
     stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np, max_recall_id=max_recall_id)
 else:
-    results_path = "/data/share/cvl_vhh_software/release_v1_2_1/vhh_core/results/stc/final_results/"
-    dst_path = "/data/ext/VHH/datasets/vhh_mmsi_core_results_v1_2_1_keyframes/"
-    video_path = "/data/share/cvl_vhh_software/release_v1_2_1/vhh_core/videos"
+    results_path = "/data/ext/VHH/release_results/release_v1_3_0/vhh_core/results_part1/core/single/"
+    dst_path = "/caa/Projects02/vhh/private/database_nobackup/stc_vhh_mmsi_1_3_0/extracted_frames_part1/"
+    video_path = "/data/ext/VHH/release_results/release_v1_3_0/vhh_core/videos_part1/"
 
     results_file_list = os.listdir(results_path)
     print(results_file_list)
