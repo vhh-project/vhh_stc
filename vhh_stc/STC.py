@@ -12,7 +12,7 @@ from vhh_stc.utils import *
 from vhh_stc.Configuration import Configuration
 import cv2
 import json
-
+import glob
 
 class STC(object):
     """
@@ -82,7 +82,13 @@ class STC(object):
 
         vid_name = shots_np[0][0]
         vid_instance = Video()
-        vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
+        if vid_name != -1:
+            vid_instance.load(os.path.join(self.config_instance.path_videos, vid_name))
+        else:
+            # If we are not given a film name, then load the film starting with the max_recall_id
+            films = list(glob.glob(os.path.join(self.config_instance.path_videos, f"{max_recall_id}*.m4v")))
+            assert len(films) == 1
+            vid_instance.load(films[0])
 
         # prepare transformation for cnn model
         preprocess = transforms.Compose([
@@ -101,17 +107,31 @@ class STC(object):
 
         frame_cnt = 0
         results_stc_l = []
-        for i, shot in enumerate(vid_instance.getFramesByShots(shots_np, preprocess_pytorch=preprocess)):
-            if (i >= num_shots):
-                break
 
+        predictions_shot = np.array([], dtype=np.int64)
+        for i, shot in enumerate(vid_instance.getFramesByShots(shots_np, batch_size=self.config_instance.batch_size, preprocess_pytorch=preprocess)):
             shot_tensors = shot["Tensors"]
             shot_id = int(shot["sid"])
             start = int(shot["start"])
             stop = int(shot["end"])
-
+        
             # run classifier
-            class_name, nHits, all_preds_np = self.runModel(model, shot_tensors)
+            predictions = self.runModel(model, shot_tensors)
+
+            # Aggregate predictions over batches in the same shot            
+            predictions_shot = np.concatenate((predictions_shot, predictions))
+
+            if not shot["is_final_batch_in_shot"]:
+                continue
+
+            # Process shots
+            all_preds_np = np.array(predictions_shot).flatten()
+            indices, distr = np.unique(all_preds_np, return_counts=True)
+            tmp_idx = np.zeros(len(self.config_instance.class_names)).astype('int')
+            tmp_idx[indices] = distr
+            idx = tmp_idx.argmax(0)
+            class_name = self.config_instance.class_names[idx]
+            nHits = tmp_idx[idx]
 
             if(self.config_instance.save_raw_results == 1):
                 #print("save intermediate/raw results ... ")
@@ -161,6 +181,8 @@ class STC(object):
             print(str(vid_name) + ";" + str(shot_id) + ";" + str(start) + ";" + str(stop) + ";" + str(class_name))
             results_stc_l.append([str(vid_name) + ";" + str(shot_id) + ";" + str(start) + ";" + str(stop) + ";" + str(class_name)])
 
+            predictions_shot = np.array([], dtype=np.int64)
+
         results_stc_np = np.array(results_stc_l)
 
         # export results
@@ -176,39 +198,20 @@ class STC(object):
                  the number of hits within a shot,
                  frame-based predictions for a whole shot
         """
+        input_batch = Variable(tensor_l)
 
-        input_batch = tensor_l
+        # move the input and model to GPU for speed if available
+        if torch.cuda.is_available():
+            input_batch = input_batch.to('cuda')
+            model.to('cuda')
 
-        # prepare pytorch dataloader
-        dataset = data.TensorDataset(input_batch)  # create your datset
+        model.eval()
+        with torch.no_grad():
+            output = model(input_batch)
+            preds = output.argmax(1, keepdim=True)
+            preds_l = preds.detach().cpu().numpy().flatten()
 
-        inference_dataloader = data.DataLoader(dataset, batch_size=self.config_instance.batch_size, num_workers=2)  # create your dataloader
-
-        preds_l = []
-        for i, inputs in enumerate(inference_dataloader):
-            input_batch = inputs[0]
-            input_batch = Variable(input_batch)
-
-            # move the input and model to GPU for speed if available
-            if torch.cuda.is_available():
-                input_batch = input_batch.to('cuda')
-                model.to('cuda')
-
-            model.eval()
-            with torch.no_grad():
-                output = model(input_batch)
-                preds = output.argmax(1, keepdim=True)
-                preds_l.extend(preds.detach().cpu().numpy().flatten())
-
-        preds_np = np.array(preds_l).flatten()
-        indices, distr = np.unique(preds_np, return_counts=True)
-        tmp_idx = np.zeros(len(self.config_instance.class_names)).astype('int')
-        tmp_idx[indices] = distr
-        idx = tmp_idx.argmax(0)
-        class_name = self.config_instance.class_names[idx]
-        nHits = tmp_idx[idx]
-
-        return class_name, nHits, preds_np
+        return preds_l
 
     def loadSbdResults(self, sbd_results_path):
         """
@@ -221,17 +224,30 @@ class STC(object):
         :return: numpy array holding list of detected shots.
         """
 
-        # open sbd results
-        fp = open(sbd_results_path, 'r')
-        lines = fp.readlines()
-        lines = lines[1:]
+        file_ending = os.path.split(sbd_results_path)[-1].split('.')[-1].lower()
+        if file_ending == "csv":
+            # open sbd results
+            fp = open(sbd_results_path, 'r')
+            lines = fp.readlines()
+            lines = lines[1:]
 
-        lines_n = []
-        for i in range(0, len(lines)):
-            line = lines[i].replace('\n', '')
-            line_split = line.split(';')
-            lines_n.append([line_split[0], os.path.join(line_split[1]), line_split[2], line_split[3]])
-        lines_np = np.array(lines_n)
+            lines_n = []
+            for i in range(0, len(lines)):
+                line = lines[i].replace('\n', '')
+                line_split = line.split(';')
+                lines_n.append([line_split[0], os.path.join(line_split[1]), line_split[2], line_split[3]])
+            lines_np = np.array(lines_n)
+        elif file_ending == "json":
+            with open(sbd_results_path, 'r') as file:
+                shots = json.load(file)
+
+            lines_n = []
+            for shot in shots:
+                lines_n.append([-1, shot["shotId"], shot["inPoint"], shot["outPoint"]])
+            lines_np = np.array(lines_n)
+        else:
+            raise ValueError("Unknown filetyp found")
+
         #print(lines_np.shape)
 
         return lines_np
