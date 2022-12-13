@@ -11,13 +11,19 @@ if(stc_instance.config_instance.debug_flag == True):
     max_recall_id = int(shots_np[0][0].split('.')[0])
     stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np, max_recall_id=max_recall_id)
 else:
-    results_path = "/data/share/datasets/vhh_mmsi_test_db_v3/annotations/sbd/"
-    results_file_list = os.listdir(results_path)
-    print(results_file_list)
+    results_path = "/data/share/fjogl/vhh_stc_data/sbd_results/"
 
+    results_file_list = os.listdir(results_path)
+    print(f"Nr of films to run on {len(results_file_list)}")
     for file in results_file_list:
         shots_np = stc_instance.loadSbdResults(results_path + file)
-        max_recall_id = int(file.split('.')[0])
+        
+        if len(file) > 8:
+            max_recall_id = int(file[0:4])
+        else:   
+            max_recall_id = int(file.split('.')[0])
+
+        print(shots_np, "\n", max_recall_id)
         stc_instance.runOnSingleVideo(shots_per_vid_np=shots_np, max_recall_id=max_recall_id)
 
 

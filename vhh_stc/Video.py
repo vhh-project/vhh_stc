@@ -113,9 +113,26 @@ class Video(object):
 
         return frame_np
 
-    # Returns Video Shot by Shot
-    def getFramesByShots(self, shots_np, preprocess_pytorch=None):
+    def format_shots(self, preprocess_pytorch, frame_l, frames_orig, sid, start_idx, stop_idx, is_final_batch_in_shot):
+        if preprocess_pytorch is not None:
+            all_tensors_l = torch.stack(frame_l)
+            return {"Tensors": all_tensors_l,
+                    "Images": np.array(frames_orig),
+                    "sid": sid,
+                    "start": start_idx,
+                    "end": stop_idx,
+                    "is_final_batch_in_shot": is_final_batch_in_shot}
+        
+        return {"Images": np.array(frames_orig),
+                "sid": sid,
+                "start": start_idx,
+                "end": stop_idx,
+                "stc_class": "T"
+                }
 
+
+    # Returns Video Shot by Shot and batch-wise
+    def getFramesByShots(self, shots_np, batch_size, preprocess_pytorch=None):
         # initialize video capture
         cap = cv2.VideoCapture(self.vidFile)
 
@@ -129,17 +146,14 @@ class Video(object):
             sid = int(shot[1])
             start_idx = int(shot[2])
             stop_idx = int(shot[3])
+            frames_in_batch = 0
 
             # print(f"Retrieving Frames for Shot {sid} (frames {frame_number} to {stop_idx})...")
             while frame_number <= stop_idx:
                 # read next frame
                 success, image = cap.read()
                 frame_number = frame_number + 1
-                # print(frame_number)
-
-                # if(start_idx == stop_idx):
-                #    cv2.imshow("frame", image)
-                #    k = cv2.waitKey()
+                frames_in_batch += 1
 
                 # skip to start position (for gradual cuts)
                 if frame_number < start_idx:
@@ -147,7 +161,6 @@ class Video(object):
                     continue
 
                 if success == True:
-                    # if ( (frame_number >= start_idx and frame_number <= stop_idx) or (start_idx == stop_idx) ):
                     if (preprocess_pytorch != None):
                         image = preprocess_pytorch(image)
                         frame_l.append(image)
@@ -156,16 +169,13 @@ class Video(object):
                 else:
                     break
 
-            if preprocess_pytorch is not None:
-                all_tensors_l = torch.stack(frame_l)
-                yield {"Tensors": all_tensors_l,
-                       "Images": np.array(frames_orig),
-                       "sid": sid,
-                       "start": start_idx,
-                       "end": stop_idx}
-            else:
-                yield {"Images": np.array(frames_orig),
-                       "sid": sid,
-                       "start": start_idx,
-                       "end": stop_idx}
+                if frames_in_batch == batch_size:
+                    is_final_batch_in_shot = frame_number > stop_idx
+                    yield self.format_shots(preprocess_pytorch, frame_l, frames_orig, sid, start_idx, stop_idx, is_final_batch_in_shot)
+                    frames_in_batch = 0
+                    frame_l = []
+                    frames_orig = []
+
+            if frames_in_batch > 0:
+                yield self.format_shots(preprocess_pytorch, frame_l, frames_orig, sid, start_idx, stop_idx, True)
         cap.release()
